@@ -52,7 +52,7 @@ def _ensure_pkg(path: Path) -> None:
         _write(init, "")
 
 
-_PRODUCT_MODULES = {product.module for product in PRODUCT_ORDER}
+_PRODUCT_MODULES = {product.module for product in PRODUCT_ORDER if product.prefix}
 
 
 def render_product_namespace(product: Product, entities: list[tuple[str, str]]) -> str:
@@ -241,31 +241,32 @@ def prepare_specs() -> list[ProductTagWork]:
     return works
 
 
-def _collect_shared(works: list[ProductTagWork]) -> dict[str, list[EmittedModel]]:
-    groups: dict[str, list[list[EmittedModel]]] = defaultdict(list)
+def _collect_shared(works: list[ProductTagWork]) -> dict[Product, list[EmittedModel]]:
+    groups: dict[Product, list[list[EmittedModel]]] = defaultdict(list)
     for work in works:
-        groups[work.product.module].append(work.emitted)
+        groups[work.product].append(work.emitted)
 
-    shared: dict[str, list[EmittedModel]] = {}
-    for module, emitted_groups in groups.items():
+    shared: dict[Product, list[EmittedModel]] = {}
+    for product, emitted_groups in groups.items():
         items = select_shared_models(emitted_groups)
         if items:
-            shared[module] = items
+            shared[product] = items
             names = ", ".join(item.python_name for item in items)
-            print(f"  shared {module}: {names}")
+            print(f"  shared {product.key}: {names}")
     return shared
 
 
-def _write_shared(shared_by_product: dict[str, list[EmittedModel]], generated_modules: set[str]) -> None:
+def _write_shared(shared_by_product: dict[Product, list[EmittedModel]], generated_modules: set[str]) -> None:
     shared_dir = MODELS_ROOT / "_shared"
     _ensure_pkg(MODELS_ROOT)
     _ensure_pkg(shared_dir)
-    for module, items in shared_by_product.items():
-        _write(shared_dir / f"{module}.py", render_shared_module(module, items, NameMap(items)))
-    valid_modules = {product.module for product in PRODUCT_ORDER}
+    shared_modules = {product.module for product in shared_by_product}
+    for product, items in shared_by_product.items():
+        _write(shared_dir / f"{product.module}.py", render_shared_module(product.module, items, NameMap(items)))
+    valid_modules = {product.module for product in PRODUCT_ORDER if product.prefix} | {"general"}
     for module in generated_modules:
         path = shared_dir / f"{module}.py"
-        if module not in shared_by_product and path.exists():
+        if module not in shared_modules and path.exists():
             path.unlink()
             print(f"  removed {path.relative_to(PROJECT)}")
     for path in sorted(shared_dir.glob("*.py")):
@@ -274,7 +275,7 @@ def _write_shared(shared_by_product: dict[str, list[EmittedModel]], generated_mo
             print(f"  removed {path.relative_to(PROJECT)}")
 
 
-def write_models_and_clients(works: list[ProductTagWork], shared_by_product: dict[str, list[EmittedModel]]) -> None:
+def write_models_and_clients(works: list[ProductTagWork], shared_by_product: dict[Product, list[EmittedModel]]) -> None:
     _ensure_pkg(MODELS_ROOT)
     _ensure_pkg(CLIENT_ROOT)
 
@@ -291,7 +292,7 @@ def write_models_and_clients(works: list[ProductTagWork], shared_by_product: dic
         model_dir = MODELS_ROOT / entity_snake
         _ensure_pkg(model_dir)
 
-        shared_items = shared_by_product.get(module, [])
+        shared_items = shared_by_product.get(work.product, [])
         shared_names = {item.python_name for item in shared_items}
         models_import = f"ads_api.models.v1.{entity_snake}.{module}"
 
@@ -306,7 +307,7 @@ def write_models_and_clients(works: list[ProductTagWork], shared_by_product: dic
             ),
         )
 
-        if work.product is ALL:
+        if not work.product.prefix:
             client_path = CLIENT_ROOT / f"{entity_snake}.py"
         else:
             client_dir = CLIENT_ROOT / module
@@ -366,7 +367,7 @@ def _remove_empty_product_dirs(products: list[Product]) -> None:
         return
     active_modules = {product.module for product in products}
     for product in PRODUCT_ORDER:
-        if product is ALL or product.module in active_modules:
+        if not product.prefix or product.module in active_modules:
             continue
         product_dir = client_root / product.module
         if not product_dir.is_dir():
@@ -381,7 +382,7 @@ def write_client_namespaces(works: list[ProductTagWork]) -> None:
 
     for work in works:
         entity = (work.entity_snake, work.resource_name)
-        if work.product is ALL:
+        if not work.product.prefix:
             top_level_entities.append(entity)
         else:
             product_entities[work.product].append(entity)

@@ -4,6 +4,10 @@
 
 ### refactor — 重构
 - **代码生成器目录**: `script3/`、`script4/` 迁至 `codegen/v0/`、`codegen/v1/`。生成命令改为 `uv run python codegen/v0/generate.py` 与 `uv run python codegen/v1/generate.py`。
+- **Reporting API (beta) 迁至 v1**: 指南与下载脚本从 `codegen/v0` 迁到 `codegen/v1`。Reports Contract 由 `download_openapi.py` 写入 `codegen/v1/data/openapi/`；markdown 仍由 `download_reporting_docs.py` 写入 `data/guides/`。
+
+### feat — 新功能
+- **v1 Reporting API (beta)**: 生成 `ads.v1.reports`（create / retrieve / delete report），模型在 `ads_api.models.v1.reports.general`。
 
 ### docs — 文档
 - **对外身份**: README / 错误提示标明 PyPI 包名为 `async-amazon-ads-api-v1`、导入名为 `ads_api`；Redis extra 提示改为 `pip install async-amazon-ads-api-v1[redis]`。

@@ -24,12 +24,12 @@ class Product:
     spec_filename: str
 
 
-def _register(key: str, module: str, prefix: str) -> Product:
+def _register(key: str, module: str, prefix: str, spec_filename: str | None = None) -> Product:
     product = Product(
         key=key,
         module=module,
         prefix=prefix,
-        spec_filename=f"AmazonAdsAPI{key}Merged_prod_3p.json",
+        spec_filename=spec_filename or f"AmazonAdsAPI{key}Merged_prod_3p.json",
     )
     PRODUCTS[key] = product
     return product
@@ -42,10 +42,19 @@ SB = _register("SB", "sb", "SB")
 SD = _register("SD", "sd", "SD")
 DSP = _register("DSP", "dsp", "DSP")
 ST = _register("ST", "st", "ST")
+REPORTS = _register(
+    "REPORTS",
+    "general",
+    "",
+    "AmazonAdsAPIALLReportsContract_prod_3p_BETA.json",
+)
 
-PRODUCT_ORDER = (ALL, SP, SPGLOBAL, SB, SD, DSP, ST)
+PRODUCT_ORDER = (ALL, SP, SPGLOBAL, SB, SD, DSP, ST, REPORTS)
 AD_PRODUCTS = (SP, SPGLOBAL, SB, SD, DSP, ST)
-_PREFIXES_FOR_STRIP = tuple(p.prefix for p in sorted(PRODUCT_ORDER, key=lambda x: -len(x.prefix)) if p.prefix)
+_PREFIXES_FOR_STRIP = tuple(
+    p.prefix for p in sorted((SP, SPGLOBAL, SB, SD, DSP, ST), key=lambda x: -len(x.prefix)) if p.prefix
+)
+_OP_ID_PREFIXES = ("AdsApiv1",) + _PREFIXES_FOR_STRIP
 
 
 def product_from_filename(filename: str) -> Product:
@@ -57,6 +66,13 @@ def product_from_filename(filename: str) -> Product:
 
 def strip_product_prefix(name: str) -> str:
     for prefix in _PREFIXES_FOR_STRIP:
+        if name.startswith(prefix) and len(name) > len(prefix) and name[len(prefix)].isupper():
+            return name[len(prefix) :]
+    return name
+
+
+def strip_operation_id_prefix(name: str) -> str:
+    for prefix in _OP_ID_PREFIXES:
         if name.startswith(prefix) and len(name) > len(prefix) and name[len(prefix)].isupper():
             return name[len(prefix) :]
     return name
@@ -95,7 +111,7 @@ def iter_operations(spec: dict[str, Any]) -> list[tuple[str, str, dict[str, Any]
     return sorted(
         result,
         key=lambda item: (
-            camel_to_snake(strip_product_prefix(item[2].get("operationId", "endpoint"))),
+            camel_to_snake(strip_operation_id_prefix(item[2].get("operationId", "endpoint"))),
             item[1],
             item[0],
         ),

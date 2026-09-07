@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from enum import StrEnum
 from typing import Any, Literal
 
-from codegen.spec import camel_to_snake, strip_product_prefix
+from codegen.spec import camel_to_snake, strip_operation_id_prefix
 
 SUCCESS_CODES = frozenset({"200", "201", "207"})
 _ENTITY_FIELDS = frozenset(
@@ -287,7 +287,7 @@ def discover_emissions(
 
 
 def method_name(operation_id: str) -> str:
-    return camel_to_snake(strip_product_prefix(operation_id))
+    return camel_to_snake(strip_operation_id_prefix(operation_id))
 
 
 def _item_fingerprint(item: EmittedModel) -> str:

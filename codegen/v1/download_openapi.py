@@ -1,4 +1,7 @@
-"""下载 Amazon Ads API v1 Merged OpenAPI 规范文件到 codegen/v1/data/openapi/。"""
+"""下载 Amazon Ads API v1 OpenAPI 规范到 codegen/v1/data/openapi/。
+
+包含 7 个 Merged spec，以及 Reporting API (beta) Contract。
+"""
 
 from __future__ import annotations
 
@@ -62,12 +65,18 @@ SPECS = [
         url="https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISDMerged_prod_3p.json",
         filename="AmazonAdsAPISDMerged_prod_3p.json",
     ),
+    SpecSource(
+        name="Reporting API (beta)",
+        product="REPORTS",
+        url="https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLReportsContract_prod_3p_BETA.json",
+        filename="AmazonAdsAPIALLReportsContract_prod_3p_BETA.json",
+    ),
 ]
 
 
 def main() -> None:
     OPENAPI_DIR.mkdir(parents=True, exist_ok=True)
-    print(f"正在下载 {len(SPECS)} 个 Merged OpenAPI 文件到 {OPENAPI_DIR} ...")
+    print(f"正在下载 {len(SPECS)} 个 OpenAPI 文件到 {OPENAPI_DIR} ...")
 
     with httpx.Client(timeout=120.0, follow_redirects=True) as client:
         for spec in SPECS:

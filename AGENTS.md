@@ -8,7 +8,8 @@
 .
 ├── codegen/
 │   ├── v1/                                 # Ads API v1 自动代码生成器 (基于 Merged OpenAPI)
-│   │   ├── download_openapi.py             # 下载 v1 Merged OpenAPI spec
+│   │   ├── download_openapi.py             # 下载 v1 OpenAPI spec（含 Reporting beta Contract）
+│   │   ├── download_reporting_docs.py      # 下载 v1 Reporting API (beta) markdown 指南
 │   │   ├── generate.py                     # 生成 src/ads_api/client/v1 与 models/v1
 │   │   └── codegen/                        # v1 代码生成实现
 │   └── v0/                                 # Ads API v0 自动代码生成器
@@ -64,6 +65,8 @@
   ```bash
   uv run python codegen/v1/download_openapi.py
   uv run python codegen/v1/generate.py
+  # 可选：下载 Reporting API (beta) markdown 指南
+  uv run python codegen/v1/download_reporting_docs.py
   ```
   生成 `src/ads_api/client/v1` 与 `src/ads_api/models/v1`。
 

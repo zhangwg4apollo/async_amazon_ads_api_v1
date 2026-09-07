@@ -126,6 +126,7 @@ async with AdsClient(config) as ads:
     await ads.v1.sb.campaigns.query_campaign(body)
     await ads.v1.sd.campaigns.query_campaign(body)
     await ads.v1.selling_accounts.query_selling_account(body)
+    await ads.v1.reports.create_report(body)
 
     # v0
     await ads.v0.accounts.profiles.list_profiles()

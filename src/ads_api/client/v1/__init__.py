@@ -12,6 +12,7 @@ from ads_api.client.v1.brand_store_pages import BrandStorePages
 from ads_api.client.v1.brand_stores import BrandStores
 from ads_api.client.v1.dsp import DSP
 from ads_api.client.v1.manager_accounts import ManagerAccounts
+from ads_api.client.v1.reports import Reports
 from ads_api.client.v1.sb import SB
 from ads_api.client.v1.sd import SD
 from ads_api.client.v1.selling_accounts import SellingAccounts
@@ -64,6 +65,7 @@ class AdsClientV1:
         self.__brand_store_pages: BrandStorePages | None = None
         self.__brand_stores: BrandStores | None = None
         self.__manager_accounts: ManagerAccounts | None = None
+        self.__reports: Reports | None = None
         self.__selling_accounts: SellingAccounts | None = None
 
     async def __aenter__(self) -> AdsClientV1:
@@ -147,6 +149,12 @@ class AdsClientV1:
         if self.__manager_accounts is None:
             self.__manager_accounts = ManagerAccounts(self._ctx)
         return self.__manager_accounts
+
+    @property
+    def reports(self) -> Reports:
+        if self.__reports is None:
+            self.__reports = Reports(self._ctx)
+        return self.__reports
 
     @property
     def selling_accounts(self) -> SellingAccounts:
