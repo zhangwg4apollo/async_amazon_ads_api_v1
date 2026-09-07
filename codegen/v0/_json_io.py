@@ -1,4 +1,4 @@
-"""script2 共用的 JSON 读写与带 ETag 的条件下载。"""
+"""codegen/v0 共用的 JSON 读写与带 ETag 的条件下载。"""
 
 from __future__ import annotations
 

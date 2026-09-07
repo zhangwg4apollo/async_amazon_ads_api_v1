@@ -5,8 +5,8 @@ description = "Pure async Amazon Ads API client — v0 and v1 (SP, SB, SD, DSP, 
 readme = "README.md"
 requires-python = ">=3.13"
 license = "MIT"
-authors = [{ name = "Amazon Ads" }]
-keywords = ["amazon", "ads", "advertising", "sponsored-products", "sponsored-brands", "sponsored-display", "async", "api-v1"]
+authors = [{ name = "Jack", email = "zhangwenguang@apollosuite.com" }]
+keywords = ["amazon", "ads", "ads-api", "advertising", "sponsored-products", "sponsored-brands", "sponsored-display", "async", "api-v1"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Framework :: AsyncIO",
@@ -62,8 +62,7 @@ exclude = [
     ".dist",
     "dist",
     "docs",
-    "script3",
-    "script4",
+    "codegen",
     "tests",
     "AGENTS.md",
     "uv.lock",
@@ -88,8 +87,8 @@ select = ["E", "F", "I", "N", "UP", "W"]
 [tool.ruff.lint.per-file-ignores]
 "src/ads_api/models/**" = ["E501", "F403", "N815"]
 "src/ads_api/client/**" = ["E501"]
-"script3/codegen/*" = ["E501"]
-"script4/codegen/*" = ["E501"]
+"codegen/v0/codegen/*" = ["E501"]
+"codegen/v1/codegen/*" = ["E501"]
 
 
 [tool.pytest.ini_options]

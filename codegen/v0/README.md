@@ -7,11 +7,11 @@
 ## 命令
 
 ```bash
-uv run python script3/download_openapi.py
-uv run python script3/generate.py
+uv run python codegen/v0/download_openapi.py
+uv run python codegen/v0/generate.py
 ```
 
-`download_openapi.py` 自动从 Amazon Ads 文档下载 `toc2.json` 到 `script3/data/toc2.json`。
+`download_openapi.py` 自动从 Amazon Ads 文档下载 `toc2.json` 到 `codegen/v0/data/toc2.json`。
 
 ## 目录对应
 
@@ -56,12 +56,12 @@ async with AdsClient(config) as ads:
 ## 生成器结构
 
 ```
-script3/
+codegen/v0/
   download_openapi.py
   generate.py
   codegen/
     spec.py      # TOC 分组白名单、实体名推断、YAML 规范化、operationId 回退
-    schema.py    # 请求/响应闭包、Python 命名（与 script2 同策略）
+    schema.py    # 请求/响应闭包、Python 命名
     emit.py      # Pydantic + client；vendor media type
   data/api-spec-v0/<group>/<entity>/meta.json
   data/api-spec-v0/<product>_vN/meta.json   # Version N 产品 API，如 sp_v3

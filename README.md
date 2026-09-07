@@ -4,7 +4,7 @@
 [![Python versions](https://img.shields.io/pypi/pyversions/async-amazon-ads-api-v1)](https://pypi.org/project/async-amazon-ads-api-v1/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Pure async Amazon Ads API client — **`ads_api`** 统一覆盖 v0 与 v1（SP、SB、SD、DSP、ST、SP Global、Accounts、Reporting、Ads Data Manager、Exports 等）。
+纯异步 Amazon Ads API 客户端。PyPI 安装名为 **`async-amazon-ads-api-v1`**，导入名为 **`ads_api`**。统一覆盖 v0 与 v1（SP、SB、SD、DSP、ST、SP Global、Accounts、Reporting、Ads Data Manager、Exports 等）。
 
 ## Installation
 
@@ -135,7 +135,7 @@ async with AdsClient(config) as ads:
     await ads.v0.sd.creatives.create_creatives(body)
 ```
 
-详细代码生成与说明请参见 [script4/README.md](script4/README.md) (v1) 与 [script3/README.md](script3/README.md) (v0)。
+详细代码生成与说明请参见 [codegen/v1/README.md](codegen/v1/README.md) (v1) 与 [codegen/v0/README.md](codegen/v0/README.md) (v0)。
 
 ## License
 

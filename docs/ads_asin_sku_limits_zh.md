@@ -1,6 +1,6 @@
 # Amazon Ads API (v1) - 各广告类型下的 ASIN / SKU 配置数量与规则限制
 
-本文档基于 `script4/data/openapi/` 中的 Merged OpenAPI 规范，详细梳理在不同广告类型（SP、SB、SD、DSP、ST、SP Global）及其各自创意（Creative）设置下，单个广告（Ad）以及单个广告活动（Campaign）可关联的 ASIN / SKU 数量与规则限制。
+本文档基于 `codegen/v1/data/openapi/` 中的 Merged OpenAPI 规范，详细梳理在不同广告类型（SP、SB、SD、DSP、ST、SP Global）及其各自创意（Creative）设置下，单个广告（Ad）以及单个广告活动（Campaign）可关联的 ASIN / SKU 数量与规则限制。
 
 ---
 
@@ -20,30 +20,30 @@ $$\text{Campaign (广告活动)} \longrightarrow \text{Ad Group (广告组)} \lo
 
 | 广告产品 (Ad Product) | 规范文件 | 支持标识符类型 | 创意类型 / 子设置 (Creative Settings) | 单条 Ad 的 ASIN/SKU 数量限制 | 单次批量请求限制 (`ads.maxItems`) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **SP** (Sponsored Products) | `AmazonAdsAPISPAdsContract_prod_3p.json` | `ASIN`, `SKU` | `productCreativeSettings`<br>(单品广告 / 焦点视频) | **固定 1 个** (`advertisedProduct`) | **1,000** |
-| **SP Global** (全球推广) | `AmazonAdsAPISPGLOBALAdsContract_prod_3p.json` | `ASIN`, `SKU` | `productCreativeSettings`<br>(跨站点全球单品) | **每个站点 1 个**<br>(支持 1 ~ 30 个站点，最多 30 个) | **1,000** |
-| **SB** (Sponsored Brands) | `AmazonAdsAPISBAdsContract_prod_3p.json` | 仅 `ASIN` | **Product Collection** (商品集) | 直接展示商品 `products`: **0 ~ 3 个**<br>落地页商品 `landingPageAsins`: **1 ~ 100 个** | **10** |
+| **SP** (Sponsored Products) | `AmazonAdsAPISPMerged_prod_3p.json` | `ASIN`, `SKU` | `productCreativeSettings`<br>(单品广告 / 焦点视频) | **固定 1 个** (`advertisedProduct`) | **1,000** |
+| **SP Global** (全球推广) | `AmazonAdsAPISPGLOBALMerged_prod_3p.json` | `ASIN`, `SKU` | `productCreativeSettings`<br>(跨站点全球单品) | **每个站点 1 个**<br>(支持 1 ~ 30 个站点，最多 30 个) | **1,000** |
+| **SB** (Sponsored Brands) | `AmazonAdsAPISBMerged_prod_3p.json` | 仅 `ASIN` | **Product Collection** (商品集) | 直接展示商品 `products`: **0 ~ 3 个**<br>落地页商品 `landingPageAsins`: **1 ~ 100 个** | **10** |
 | | | 仅 `ASIN` | **Store Spotlight** (旗舰店焦点) | `cards`: **固定 3 张卡片**<br>(每张卡片 1 个 ASIN，共 3 个) | **10** |
 | | | 仅 `ASIN` | **Product Video** (商品视频) | `products`: **0 ~ 3 个** | **10** |
 | | | 仅 `ASIN` | **Manual Collection** (手动精选集) | `productInclusions`: **3 ~ 10 个** | **10** |
 | | | 仅 `ASIN` | **Auto Collection** (自动集合) | `productExclusions`: **0 ~ 1,000 个** (排除项) | **10** |
 | | | 仅 `ASIN` | **Brand Gallery** (品牌画廊) | `cards`: 0 ~ 5 张 (无直接 product 字段) | **10** |
-| **SD** (Sponsored Display) | `AmazonAdsAPISDAdsContract_prod_3p.json` | `ASIN`, `SKU` | **Responsive eCommerce** (自适应电商) | `products`: **0 ~ 1 个** | **100** |
+| **SD** (Sponsored Display) | `AmazonAdsAPISDMerged_prod_3p.json` | `ASIN`, `SKU` | **Responsive eCommerce** (自适应电商) | `products`: **0 ~ 1 个** | **100** |
 | | | `ASIN`, `SKU` | **Product Video** (商品视频) | `products`: **0 ~ 1 个** | **100** |
 | | | `ASIN`, `SKU` | **Asset Based Creative** (素材引流) | 无 products 字段 (外链落地页) | **100** |
-| **DSP** (Demand Side Platform) | `AmazonAdsAPIDSPAdsContract_prod_3p.json` | 仅 `ASIN` | **Responsive eCommerce** (自适应电商) | `products`: **1 ~ 20 个** | **10** |
+| **DSP** (Demand Side Platform) | `AmazonAdsAPIDSPMerged_prod_3p.json` | 仅 `ASIN` | **Responsive eCommerce** (自适应电商) | `products`: **1 ~ 20 个** | **10** |
 | | | 仅 `ASIN` | **Standard Audio** (标准音频广告) | `products`: **0 ~ 10 个** | **10** |
 | | | 仅 `ASIN` | **Streaming TV** (流媒体电视视频) | `products`: **0 ~ 20 个** | **10** |
 | | | 仅 `ASIN` | **Online Video** (在线视频) | `products`: **0 ~ 1 个** (单个对象) | **10** |
 | | | 仅 `ASIN` | **Standard Display / 3P** (标准展示/三方) | 无 products 字段 (纯图片或 VAST/HTML) | **10** |
-| **ST** (Sponsored Television) | `AmazonAdsAPISTAdsContract_prod_3p.json` | `ASIN`, `SKU` | **Streaming TV** (流媒体电视广告) | `products`: **0 ~ 1 个** | **100** |
+| **ST** (Sponsored Television) | `AmazonAdsAPISTMerged_prod_3p.json` | `ASIN`, `SKU` | **Streaming TV** (流媒体电视广告) | `products`: **0 ~ 1 个** | **100** |
 
 ---
 
 ## 3. 各广告产品详细规格剖析
 
 ### 3.1 Sponsored Products (SP)
-- **规范文件**: `script2/data/api-spec-v1/ads/AmazonAdsAPISPAdsContract_prod_3p.json`
+- **规范文件**: `codegen/v1/data/openapi/AmazonAdsAPISPMerged_prod_3p.json`
 - **支持类型**: `SPProductIdType` (`ASIN`, `SKU`)
 - **核心结构**:
   - `creative.productCreative.productCreativeSettings.advertisedProduct` 为单一对象：
@@ -56,7 +56,7 @@ $$\text{Campaign (广告活动)} \longrightarrow \text{Ad Group (广告组)} \lo
   - `SPDeleteAdRequest.adIds`: `minItems: 1`, `maxItems: 1000`
 
 ### 3.2 Sponsored Products Global (SP Global)
-- **规范文件**: `script2/data/api-spec-v1/ads/AmazonAdsAPISPGLOBALAdsContract_prod_3p.json`
+- **规范文件**: `codegen/v1/data/openapi/AmazonAdsAPISPGLOBALMerged_prod_3p.json`
 - **支持类型**: `SPGlobalProductIdType` (`ASIN`, `SKU`)
 - **核心结构**:
   - `advertisedProduct.marketplaceSettings` 为数组 (`minItems: 0`, `maxItems: 30`)：
@@ -66,7 +66,7 @@ $$\text{Campaign (广告活动)} \longrightarrow \text{Ad Group (广告组)} \lo
   - `SPGlobalCreateAdRequest.ads`: `minItems: 1`, `maxItems: 1000`
 
 ### 3.3 Sponsored Brands (SB)
-- **规范文件**: `script2/data/api-spec-v1/ads/AmazonAdsAPISBAdsContract_prod_3p.json`
+- **规范文件**: `codegen/v1/data/openapi/AmazonAdsAPISBMerged_prod_3p.json`
 - **支持类型**: `SBProductIdType` (仅支持 `ASIN`)
 - **各创意场景与限制**:
   1. **Product Collection (`productCollectionSettings`)**:
@@ -87,7 +87,7 @@ $$\text{Campaign (广告活动)} \longrightarrow \text{Ad Group (广告组)} \lo
   - `SBCreateAdRequest.ads`: `minItems: 1`, `maxItems: 10`
 
 ### 3.4 Sponsored Display (SD)
-- **规范文件**: `script2/data/api-spec-v1/ads/AmazonAdsAPISDAdsContract_prod_3p.json`
+- **规范文件**: `codegen/v1/data/openapi/AmazonAdsAPISDMerged_prod_3p.json`
 - **支持类型**: `SDProductIdType` (`ASIN`, `SKU`)
 - **各创意场景与限制**:
   1. **Responsive eCommerce (`responsiveEcommerceSettings`)**:
@@ -100,7 +100,7 @@ $$\text{Campaign (广告活动)} \longrightarrow \text{Ad Group (广告组)} \lo
   - `SDCreateAdRequest.ads`: `minItems: 1`, `maxItems: 100`
 
 ### 3.5 Demand Side Platform (DSP)
-- **规范文件**: `script2/data/api-spec-v1/ads/AmazonAdsAPIDSPAdsContract_prod_3p.json`
+- **规范文件**: `codegen/v1/data/openapi/AmazonAdsAPIDSPMerged_prod_3p.json`
 - **支持类型**: `DSPProductIdType` (仅支持 `ASIN`)
 - **各创意场景与限制**:
   1. **Responsive eCommerce (`responsiveEcommerceSettings`)**:
@@ -117,7 +117,7 @@ $$\text{Campaign (广告活动)} \longrightarrow \text{Ad Group (广告组)} \lo
   - `DSPCreateAdRequest.ads`: `minItems: 1`, `maxItems: 10`
 
 ### 3.6 Sponsored Television (ST)
-- **规范文件**: `script2/data/api-spec-v1/ads/AmazonAdsAPISTAdsContract_prod_3p.json`
+- **规范文件**: `codegen/v1/data/openapi/AmazonAdsAPISTMerged_prod_3p.json`
 - **支持类型**: `STProductIdType` (`ASIN`, `SKU`)
 - **核心结构**:
   - `creative.videoCreative.streamingTvSettings.products`: 数组 (`minItems: 0`, `maxItems: 1`)，支持 0 或 1 个 ASIN / SKU。

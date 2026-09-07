@@ -1,7 +1,7 @@
-"""Generate ads_api v1 models and clients from script4/data/openapi.
+"""Generate ads_api v1 models and clients from codegen/v1/data/openapi.
 
 Usage:
-    uv run python script4/generate.py
+    uv run python codegen/v1/generate.py
 """
 
 from __future__ import annotations
@@ -33,7 +33,7 @@ from codegen.spec import (
 )
 
 HERE = Path(__file__).resolve().parent
-PROJECT = HERE.parent
+PROJECT = HERE.parent.parent
 SPEC_ROOT = HERE / "data" / "openapi"
 PACKAGE_ROOT = PROJECT / "src" / "ads_api"
 CLIENT_ROOT = PACKAGE_ROOT / "client" / "v1"

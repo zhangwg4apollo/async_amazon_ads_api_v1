@@ -1,4 +1,4 @@
-"""下载 Amazon Ads API v1 Merged OpenAPI 规范文件到 script4/data/openapi/。"""
+"""下载 Amazon Ads API v1 Merged OpenAPI 规范文件到 codegen/v1/data/openapi/。"""
 
 from __future__ import annotations
 

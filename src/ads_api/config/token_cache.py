@@ -93,7 +93,9 @@ class RedisTokenCache(BaseTokenCache):
             try:
                 from redis.asyncio import Redis
             except ImportError:
-                raise ImportError("Redis support requires the 'redis' extra: pip install ads-api[redis]") from None
+                raise ImportError(
+                    "Redis support requires the 'redis' extra: pip install async-amazon-ads-api-v1[redis]"
+                ) from None
             self._client = Redis.from_url(redis_url, decode_responses=True)
             self._owns_client = True
         else:

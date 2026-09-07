@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+### refactor — 重构
+- **代码生成器目录**: `script3/`、`script4/` 迁至 `codegen/v0/`、`codegen/v1/`。生成命令改为 `uv run python codegen/v0/generate.py` 与 `uv run python codegen/v1/generate.py`。
+
+### docs — 文档
+- **对外身份**: README / 错误提示标明 PyPI 包名为 `async-amazon-ads-api-v1`、导入名为 `ads_api`；Redis extra 提示改为 `pip install async-amazon-ads-api-v1[redis]`。
+- **枚举策略**: 文档与生成器说明改为实际输出（请求 `Literal`，响应 `Literal | str`），不再把 `lenient_enum` 写成生成模型形态。
+
 ## v0.10.0 (2026-09-07)
 
 ### breaking — 破坏性变更

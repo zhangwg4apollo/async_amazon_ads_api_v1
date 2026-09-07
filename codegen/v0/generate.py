@@ -1,7 +1,7 @@
-"""Generate ads_api v0 models and clients from script3/data/api-spec-v0.
+"""Generate ads_api v0 models and clients from codegen/v0/data/api-spec-v0.
 
 Usage:
-    uv run python script3/generate.py
+    uv run python codegen/v0/generate.py
 """
 
 from __future__ import annotations
@@ -37,7 +37,7 @@ from codegen.spec import (
 )
 
 HERE = Path(__file__).resolve().parent
-PROJECT = HERE.parent
+PROJECT = HERE.parent.parent
 SPEC_ROOT = HERE / "data" / "api-spec-v0"
 PACKAGE_ROOT = PROJECT / "src" / "ads_api"
 CLIENT_ROOT = PACKAGE_ROOT / "client" / "v0"
@@ -399,10 +399,10 @@ def generate_all() -> None:
 
 def run_format() -> None:
     src = str(PACKAGE_ROOT)
-    scripts = str(HERE)
+    generator = str(HERE)
     for cmd, label in (
-        (["uv", "run", "black", src, scripts], "black"),
-        (["uv", "run", "ruff", "check", "--fix", src, scripts], "ruff"),
+        (["uv", "run", "black", src, generator], "black"),
+        (["uv", "run", "ruff", "check", "--fix", src, generator], "ruff"),
     ):
         print(f"\n── {label}")
         result = subprocess.run(cmd, cwd=PROJECT, capture_output=True, text=True)

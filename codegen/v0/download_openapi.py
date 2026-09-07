@@ -22,7 +22,6 @@ from codegen.spec import (
 _PRODUCT_GROUP_KEYS = frozenset(GROUP_KEY_OVERRIDES.values())
 
 HERE = Path(__file__).resolve().parent
-PROJECT = HERE.parent
 TOC_PATH = HERE / "data" / "toc2.json"
 SPEC_ROOT = HERE / "data" / "api-spec-v0"
 YAML_BASE = "https://d3a0d0y2hgofx6.cloudfront.net/openapi/en-us/"
