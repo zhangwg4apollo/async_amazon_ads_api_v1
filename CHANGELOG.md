@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.10.1 (2026-09-07)
+
 ### refactor — 重构
 - **代码生成器目录**: `script3/`、`script4/` 迁至 `codegen/v0/`、`codegen/v1/`。生成命令改为 `uv run python codegen/v0/generate.py` 与 `uv run python codegen/v1/generate.py`。
 - **Reporting API (beta) 迁至 v1**: 指南与下载脚本从 `codegen/v0` 迁到 `codegen/v1`。Reports Contract 由 `download_openapi.py` 写入 `codegen/v1/data/openapi/`；markdown 仍由 `download_reporting_docs.py` 写入 `data/guides/`。
