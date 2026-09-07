@@ -1,17 +1,16 @@
 from __future__ import annotations
 
 import asyncio
-import os
-import tempfile
 import time
 from pathlib import Path
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from async_amazon_ads_api_v1.config.loader import from_toml
-from async_amazon_ads_api_v1.config.region import ENDPOINT_MAP, Region
-from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
+from ads_api.config.region import ENDPOINT_MAP, Region
+from ads_api.config.settings import AmazonAdsConfig
+from ads_api.config.token_cache import FileTokenCache, RedisTokenCache, TokenData
+from ads_api.config.token_manager import TokenCredentials, TokenManager
 
 
 class TestRegion:
@@ -97,44 +96,18 @@ class TestAmazonAdsConfig:
         with pytest.raises(ValueError, match="max_retries cannot be negative"):
             AmazonAdsConfig(access_token="t", client_id="cli", max_retries=-1)
 
-    # ── from_toml ──────────────────────────────────────────────────────
 
-    def _write_toml(self, content: str) -> str:
-        tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".toml", delete=False)
-        tmp.write(content)
-        tmp.close()
-        return tmp.name
+class TestTokenManager:
+    def _manager(self, cache: AsyncMock | None = None) -> TokenManager:
+        return TokenManager(
+            credentials=TokenCredentials(client_id="cid", client_secret="sec", refresh_token="rt"),
+            cache=cache,
+        )
 
-    def test_from_toml_success(self) -> None:
-        path = self._write_toml("client_id = 'tc'\nrefresh_token = 'rt'\nclient_secret = 'sc'\nregion = 'eu'")
-        cfg = from_toml(path)
-        assert cfg.client_id == "tc"
-        assert cfg.region == "eu"
-        Path(path).unlink()
-
-    def test_from_toml_env_override(self) -> None:
-        path = self._write_toml("client_id = 'toml'\nrefresh_token = 'rt'\nclient_secret = 'sc'")
-        with patch.dict(os.environ, {"AMAZON_CLIENT_ID": "env"}, clear=False):
-            cfg = from_toml(path)
-        assert cfg.client_id == "env"
-        Path(path).unlink()
-
-    def test_from_toml_env_endpoint_override(self) -> None:
-        path = self._write_toml("client_id = 'tc'\nrefresh_token = 'rt'\nclient_secret = 'sc'\nregion = 'na'")
-        with patch.dict(os.environ, {"AMAZON_ENDPOINT_NA": "http://localhost:9999"}, clear=False):
-            cfg = from_toml(path)
-        assert cfg.base_url == "http://localhost:9999"
-        Path(path).unlink()
-
-
-class TestTokenManagerForceRefresh:
     @pytest.mark.asyncio
     async def test_force_refresh_bypasses_cache(self) -> None:
-        from async_amazon_ads_api_v1.config.token_manager import TokenCredentials, TokenManager
-
-        creds = TokenCredentials(client_id="cid", client_secret="sec", refresh_token="rt")
-        tm = TokenManager(credentials=creds)
-        tm._access_token = "cached-token"
+        tm = self._manager()
+        tm.access_token = "cached-token"
         tm._expires_at = 9999999999.0
 
         assert await tm.get_access_token(force=False) == "cached-token"
@@ -143,33 +116,6 @@ class TestTokenManagerForceRefresh:
             token = await tm.get_access_token(force=True)
             assert token == "fresh-token"
             mock_refresh.assert_awaited_once()
-
-    @pytest.mark.asyncio
-    async def test_unified_token_manager_force_refresh(self) -> None:
-        from ads_api.config.token_manager import TokenCredentials
-        from ads_api.config.token_manager import TokenManager as NewTokenManager
-
-        creds = TokenCredentials(client_id="cid", client_secret="sec", refresh_token="rt")
-        tm = NewTokenManager(credentials=creds)
-        tm.access_token = "cached-token"
-        tm._expires_at = 9999999999.0
-
-        assert await tm.get_access_token(force=False) == "cached-token"
-
-        with patch.object(NewTokenManager, "_refresh", AsyncMock(return_value="fresh-token")) as mock_refresh:
-            token = await tm.get_access_token(force=True)
-            assert token == "fresh-token"
-            mock_refresh.assert_awaited_once()
-
-
-class TestAdsApiTokenManager:
-    def _manager(self, cache: AsyncMock | None = None):
-        from ads_api.config.token_manager import TokenCredentials, TokenManager
-
-        return TokenManager(
-            credentials=TokenCredentials(client_id="cid", client_secret="sec", refresh_token="rt"),
-            cache=cache,
-        )
 
     @pytest.mark.asyncio
     async def test_memory_hit_skips_cache_and_refresh(self) -> None:
@@ -183,8 +129,6 @@ class TestAdsApiTokenManager:
 
     @pytest.mark.asyncio
     async def test_cache_hit_reads_once(self) -> None:
-        from ads_api.config.token_cache import TokenData
-
         cache = AsyncMock()
         cache.read = AsyncMock(return_value=TokenData(access_token="cached-token", expires_at=time.time() + 3600))
         tm = self._manager(cache)
@@ -242,34 +186,21 @@ class TestAdsApiTokenManager:
 _CREDS = {"client_id": "cid", "client_secret": "sec", "refresh_token": "rt"}
 
 
-class TestAdsApiCacheInference:
+class TestCacheInference:
     def test_no_cache_by_default(self) -> None:
-        from ads_api.config.settings import AmazonAdsConfig
-
         cfg = AmazonAdsConfig(**_CREDS)
         assert cfg._token_manager is not None
         assert cfg._token_manager._cache is None
 
     def test_file_cache_from_dir(self, tmp_path: Path) -> None:
-        from ads_api.config.settings import AmazonAdsConfig
-        from ads_api.config.token_cache import FileTokenCache
-
         cfg = AmazonAdsConfig(**_CREDS, token_cache_dir=str(tmp_path))
         assert isinstance(cfg._token_manager._cache, FileTokenCache)
 
     def test_redis_from_client(self) -> None:
-        from unittest.mock import MagicMock
-
-        from ads_api.config.settings import AmazonAdsConfig
-        from ads_api.config.token_cache import RedisTokenCache
-
         cfg = AmazonAdsConfig(**_CREDS, redis_client=MagicMock())
         assert isinstance(cfg._token_manager._cache, RedisTokenCache)
 
     def test_custom_cache_wins(self, tmp_path: Path) -> None:
-        from ads_api.config.settings import AmazonAdsConfig
-        from ads_api.config.token_cache import FileTokenCache
-
         custom = FileTokenCache(cache_dir=tmp_path, client_id="cid", refresh_token="rt")
         cfg = AmazonAdsConfig(
             **_CREDS,
@@ -280,11 +211,6 @@ class TestAdsApiCacheInference:
         assert cfg._token_manager._cache is custom
 
     def test_redis_wins_over_file(self, tmp_path: Path) -> None:
-        from unittest.mock import MagicMock, patch
-
-        from ads_api.config.settings import AmazonAdsConfig
-        from ads_api.config.token_cache import RedisTokenCache
-
         with patch("redis.asyncio.Redis.from_url", return_value=MagicMock()):
             cfg = AmazonAdsConfig(
                 **_CREDS,

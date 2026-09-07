@@ -22,4 +22,4 @@ __all__ = [
     "TokenCredentials",
     "TokenManager",
 ]
-__version__ = "0.9.3"
+__version__ = "0.10.0"

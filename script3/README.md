@@ -1,6 +1,6 @@
 # Ads API v0 代码生成
 
-从 toc2 的 **Amazon Ads API v0** 分组下载 OpenAPI，生成 `src/ads_api/client/v0` 与 `src/ads_api/models/v0`。不依赖 `scripts/`。runtime（`config` / `base` / `models/_core`）与 v1 共用 `src/ads_api`。
+从 toc2 的 **Amazon Ads API v0** 分组下载 OpenAPI，生成 `src/ads_api/client/v0` 与 `src/ads_api/models/v0`。runtime（`config` / `base` / `models/_core`）与 v1 共用 `src/ads_api`。
 
 当前覆盖 **Accounts**、**Reporting**、**Ads data manager**、**Exports**、**Portfolios**（OpenAPI 3.0，叶子节点 → `portfolios`）、**Sponsored Products**（仅 Version 3 → `sp_v3`）、**Sponsored Brands**（仅 Version 4 → `sb_v4`）、**Sponsored Display**（仅一份 Campaign management spec → `sd`，不区分版本）。后续加 DSP / SP Version 2 等时，在 `codegen/spec.py` 的 `INCLUDED_TOC_SECTIONS`（及可选的 `INCLUDED_VERSIONS`）里加即可。实体名默认从 TOC 项名推断；只有不稳定的路径才写进 `ENTITY_OVERRIDES`。叶子 TOC 节点（无子项、自身带 `link`）作为单资源挂到 `AdsClientV0` 上。
 

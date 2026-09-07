@@ -2,26 +2,22 @@ from __future__ import annotations
 
 import os
 import time
+from collections.abc import AsyncGenerator
 from pathlib import Path
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 import pytest_asyncio
 
-from async_amazon_ads_api_v1.config.token_cache import (
-    BaseTokenCache,
-    FileTokenCache,
-    RedisTokenCache,
-    _redis_clients,
-    _TokenData,
-)
+from ads_api.config.token_cache import BaseTokenCache, FileTokenCache, RedisTokenCache, TokenData
 
 REDIS_URL = os.environ.get("TEST_REDIS_URL", "redis://localhost:6379/0")
 HAS_REDIS = os.environ.get("TEST_REDIS_URL") is not None
 
 
 @pytest.fixture
-def token_data() -> _TokenData:
-    return _TokenData(
+def token_data() -> TokenData:
+    return TokenData(
         access_token="test-access-token",
         expires_at=time.time() + 3600,
     )
@@ -37,9 +33,7 @@ def file_cache(tmp_path: Path) -> FileTokenCache:
 
 
 @pytest_asyncio.fixture
-async def redis_cache() -> RedisTokenCache:
-    # Clear global pool to avoid event loop conflicts
-    _redis_clients.clear()
+async def redis_cache() -> AsyncGenerator[RedisTokenCache]:
     cache = RedisTokenCache(
         redis_url=REDIS_URL,
         client_id="test-client",
@@ -47,8 +41,7 @@ async def redis_cache() -> RedisTokenCache:
     )
     await cache._client.flushdb()
     yield cache
-    await cache._client.aclose()
-    _redis_clients.clear()
+    await cache.close()
 
 
 @pytest.mark.asyncio
@@ -57,7 +50,7 @@ class TestFileTokenCache:
         result = await file_cache.read()
         assert result is None
 
-    async def test_write_and_read(self, file_cache: FileTokenCache, token_data: _TokenData) -> None:
+    async def test_write_and_read(self, file_cache: FileTokenCache, token_data: TokenData) -> None:
         await file_cache.write(token_data)
         result = await file_cache.read()
         assert result is not None
@@ -65,8 +58,8 @@ class TestFileTokenCache:
         assert result.expires_at == token_data.expires_at
 
     async def test_overwrite(self, file_cache: FileTokenCache) -> None:
-        data1 = _TokenData(access_token="token-1", expires_at=time.time() + 100)
-        data2 = _TokenData(access_token="token-2", expires_at=time.time() + 200)
+        data1 = TokenData(access_token="token-1", expires_at=time.time() + 100)
+        data2 = TokenData(access_token="token-2", expires_at=time.time() + 200)
 
         await file_cache.write(data1)
         await file_cache.write(data2)
@@ -93,7 +86,7 @@ class TestFileTokenCache:
         cache1 = FileTokenCache(cache_dir=tmp_path, client_id="client1", refresh_token="rt1")
         cache2 = FileTokenCache(cache_dir=tmp_path, client_id="client2", refresh_token="rt2")
 
-        data = _TokenData(access_token="tok", expires_at=time.time() + 100)
+        data = TokenData(access_token="tok", expires_at=time.time() + 100)
         await cache1.write(data)
 
         assert await cache1.read() is not None
@@ -107,7 +100,7 @@ class TestRedisTokenCache:
         result = await redis_cache.read()
         assert result is None
 
-    async def test_write_and_read(self, redis_cache: RedisTokenCache, token_data: _TokenData) -> None:
+    async def test_write_and_read(self, redis_cache: RedisTokenCache, token_data: TokenData) -> None:
         await redis_cache.write(token_data)
         result = await redis_cache.read()
         assert result is not None
@@ -115,7 +108,7 @@ class TestRedisTokenCache:
         assert result.expires_at == token_data.expires_at
 
     async def test_ttl_based_on_expires_at(self, redis_cache: RedisTokenCache) -> None:
-        data = _TokenData(
+        data = TokenData(
             access_token="tok",
             expires_at=time.time() + 60,
         )
@@ -124,7 +117,7 @@ class TestRedisTokenCache:
         assert 50 <= ttl <= 60
 
     async def test_expired_token_not_written(self, redis_cache: RedisTokenCache) -> None:
-        data = _TokenData(
+        data = TokenData(
             access_token="tok",
             expires_at=time.time() - 10,
         )
@@ -133,8 +126,8 @@ class TestRedisTokenCache:
         assert result is None
 
     async def test_overwrite(self, redis_cache: RedisTokenCache) -> None:
-        data1 = _TokenData(access_token="token-1", expires_at=time.time() + 100)
-        data2 = _TokenData(access_token="token-2", expires_at=time.time() + 200)
+        data1 = TokenData(access_token="token-1", expires_at=time.time() + 100)
+        data2 = TokenData(access_token="token-2", expires_at=time.time() + 200)
 
         await redis_cache.write(data1)
         await redis_cache.write(data2)
@@ -145,17 +138,14 @@ class TestRedisTokenCache:
 
     async def test_different_credentials_different_keys(self, redis_cache: RedisTokenCache) -> None:
         cache2 = RedisTokenCache(redis_url=REDIS_URL, client_id="c2", refresh_token="rt2")
+        try:
+            data = TokenData(access_token="tok", expires_at=time.time() + 100)
+            await redis_cache.write(data)
 
-        data = _TokenData(access_token="tok", expires_at=time.time() + 100)
-        await redis_cache.write(data)
-
-        assert await redis_cache.read() is not None
-        assert await cache2.read() is None
-
-    async def test_shared_connection(self, redis_cache: RedisTokenCache) -> None:
-        """Multiple instances with same URL share the same Redis client."""
-        cache2 = RedisTokenCache(redis_url=REDIS_URL, client_id="c2", refresh_token="rt2")
-        assert redis_cache._client is cache2._client
+            assert await redis_cache.read() is not None
+            assert await cache2.read() is None
+        finally:
+            await cache2.close()
 
 
 class TestBaseTokenCache:
@@ -165,55 +155,32 @@ class TestBaseTokenCache:
 
 
 @pytest.mark.asyncio
-class TestUnifiedTokenCache:
-    async def test_unified_file_token_cache(self, tmp_path: Path) -> None:
-        from ads_api.config.token_cache import FileTokenCache as NewFileTokenCache
-        from ads_api.config.token_cache import TokenData as NewTokenData
-
-        cache = NewFileTokenCache(cache_dir=tmp_path, client_id="cid", refresh_token="rt")
-        assert await cache.read() is None
-
-        data = NewTokenData(access_token="tok1", expires_at=time.time() + 3600)
-        await cache.write(data)
-        read_data = await cache.read()
-        assert read_data is not None
-        assert read_data.access_token == "tok1"
-        await cache.close()
-
-    async def test_unified_redis_token_cache_injected(self) -> None:
-        from unittest.mock import AsyncMock, MagicMock
-
-        from ads_api.config.token_cache import RedisTokenCache as NewRedisTokenCache
-        from ads_api.config.token_cache import TokenData as NewTokenData
-
+class TestRedisTokenCacheInjected:
+    async def test_injected_client_is_not_closed(self) -> None:
         mock_redis = MagicMock()
         mock_redis.get = AsyncMock(return_value='{"access_token": "redis-tok", "expires_at": 9999999999.0}')
         mock_redis.set = AsyncMock()
         mock_redis.aclose = AsyncMock()
 
-        cache = NewRedisTokenCache(client_id="cid", refresh_token="rt", redis_client=mock_redis)
+        cache = RedisTokenCache(client_id="cid", refresh_token="rt", redis_client=mock_redis)
         assert cache._owns_client is False
 
         data = await cache.read()
         assert data is not None
         assert data.access_token == "redis-tok"
 
-        await cache.write(NewTokenData(access_token="new-tok", expires_at=time.time() + 3600))
+        await cache.write(TokenData(access_token="new-tok", expires_at=time.time() + 3600))
         mock_redis.set.assert_awaited_once()
 
         await cache.close()
-        mock_redis.aclose.assert_not_awaited()  # injected client should not be closed
+        mock_redis.aclose.assert_not_awaited()
 
-    async def test_unified_redis_token_cache_owned_close(self) -> None:
-        from unittest.mock import AsyncMock, MagicMock, patch
-
-        from ads_api.config.token_cache import RedisTokenCache as NewRedisTokenCache
-
+    async def test_owned_client_is_closed(self) -> None:
         mock_redis = MagicMock()
         mock_redis.aclose = AsyncMock()
 
         with patch("redis.asyncio.Redis.from_url", return_value=mock_redis):
-            cache = NewRedisTokenCache(redis_url="redis://localhost:6379/0", client_id="cid", refresh_token="rt")
+            cache = RedisTokenCache(redis_url="redis://localhost:6379/0", client_id="cid", refresh_token="rt")
             assert cache._owns_client is True
             await cache.close()
             mock_redis.aclose.assert_awaited_once()

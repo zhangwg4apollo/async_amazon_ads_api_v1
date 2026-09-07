@@ -1,7 +1,9 @@
 # Changelog
 
-> [!WARNING]
-> **废弃与迁移说明**: `async_amazon_ads_api_v1` 包即将废弃，项目正在逐步迁移至全新的统一包 **`ads_api`**（支持 v0 与 v1 全实体）。
+## v0.10.0 (2026-09-07)
+
+### breaking — 破坏性变更
+- **移除旧包 `async_amazon_ads_api_v1` 与 `scripts/` 代码生成器**：SDK 仅保留 `ads_api`。已发布用户请锁定旧版本；新代码使用 `from ads_api import AdsClient`。
 
 ## v0.9.3 (2026-09-01)
 

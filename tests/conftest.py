@@ -7,9 +7,9 @@ import httpx
 import pytest
 import pytest_asyncio
 
-from async_amazon_ads_api_v1._base import ClientContext
-from async_amazon_ads_api_v1.config.region import Region
-from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
+from ads_api.base import ClientContext
+from ads_api.config.region import Region
+from ads_api.config.settings import AmazonAdsConfig
 
 
 @pytest.fixture
@@ -38,22 +38,3 @@ def mock_response() -> MagicMock:
     resp.status_code = 200
     resp.content = b'{"dummy": "ok"}'
     return resp
-
-
-def make_config(
-    access_token: str = "test-token",
-    client_id: str = "test-client-id",
-    region: Region = Region.NA,
-    *,
-    profile_id: str | None = None,
-    timeout: float = 60.0,
-    max_retries: int = 3,
-) -> AmazonAdsConfig:
-    return AmazonAdsConfig(
-        access_token=access_token,
-        client_id=client_id,
-        region=region,
-        profile_id=profile_id,
-        timeout=timeout,
-        max_retries=max_retries,
-    )

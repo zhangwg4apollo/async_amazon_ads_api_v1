@@ -8,7 +8,7 @@ import httpx
 import pytest
 import pytest_asyncio
 
-from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
+from ads_api import AdsClient, AmazonAdsConfig, Region
 
 from .config import E2ESettings, load_settings
 
@@ -56,8 +56,8 @@ def amazon_ads_config(e2e_settings: E2ESettings) -> AmazonAdsConfig:
 
 
 @pytest_asyncio.fixture
-async def sp_client(amazon_ads_config: AmazonAdsConfig) -> AsyncGenerator[SPClient]:
-    async with SPClient(amazon_ads_config) as client:
+async def ads_client(amazon_ads_config: AmazonAdsConfig) -> AsyncGenerator[AdsClient]:
+    async with AdsClient(amazon_ads_config) as client:
         yield client
 
 

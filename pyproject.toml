@@ -1,7 +1,7 @@
 [project]
 name = "async-amazon-ads-api-v1"
 dynamic = ["version"]
-description = "Pure async Amazon Ads API v1 client — Sponsored Products, Sponsored Brands, Sponsored Display"
+description = "Pure async Amazon Ads API client — v0 and v1 (SP, SB, SD, DSP, ST, and more)"
 readme = "README.md"
 requires-python = ">=3.13"
 license = "MIT"
@@ -51,10 +51,10 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
-path = "src/async_amazon_ads_api_v1/__init__.py"
+path = "src/ads_api/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/async_amazon_ads_api_v1", "src/ads_api"]
+packages = ["src/ads_api"]
 
 [tool.hatch.build.targets.sdist]
 exclude = [
@@ -62,7 +62,6 @@ exclude = [
     ".dist",
     "dist",
     "docs",
-    "scripts",
     "script3",
     "script4",
     "tests",
@@ -87,9 +86,6 @@ target-version = "py313"
 select = ["E", "F", "I", "N", "UP", "W"]
 
 [tool.ruff.lint.per-file-ignores]
-"src/async_amazon_ads_api_v1/models/*" = ["E501", "F403", "N815"]
-"src/async_amazon_ads_api_v1/models/legacy*" = ["E501"]
-"src/async_amazon_ads_api_v1/client/*" = ["E501"]
 "src/ads_api/models/**" = ["E501", "F403", "N815"]
 "src/ads_api/client/**" = ["E501"]
 "script3/codegen/*" = ["E501"]

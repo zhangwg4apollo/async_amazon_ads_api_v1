@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import pytest
 
-from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
-from async_amazon_ads_api_v1.models.sp.ad_groups import SPAdGroupMultiStatusResponse
-from async_amazon_ads_api_v1.models.sp.campaigns import SPCampaignMultiStatusResponse
+from ads_api import AdsClient, AmazonAdsConfig, Region
+from ads_api.models.v1.ad_groups.sp import SPAdGroupMultiStatusResponse
+from ads_api.models.v1.campaigns.sp import SPCampaignMultiStatusResponse
 
 from .config import E2ESettings
-from .helpers import ad_group_payload, campaign_payload
+from .helpers import ad_group_create_request, campaign_create_request, campaign_delete_request
 
 
 def _config_for_profile(e2e_settings: E2ESettings, profile_id: str) -> AmazonAdsConfig:
@@ -31,9 +31,10 @@ async def test_sp_ad_groups_require_campaign_in_same_profile(
     owner_config = _config_for_profile(e2e_settings, e2e_settings.profile_id)
     other_config = _config_for_profile(e2e_settings, e2e_settings.other_profile_id)
 
-    async with SPClient(owner_config) as owner_client:
-        missing_parent = await owner_client.ad_groups.create(
-            [ad_group_payload(f"{unique_name}-missing-parent", "missing-campaign")]
+    async with AdsClient(owner_config) as owner_client:
+        missing_parent = await owner_client.v1.sp.ad_groups.create_ad_group(
+            ad_group_create_request(f"{unique_name}-missing-parent", "missing-campaign"),
+            mode="pydantic",
         )
         assert isinstance(missing_parent, SPAdGroupMultiStatusResponse)
         assert missing_parent.success == []
@@ -41,8 +42,9 @@ async def test_sp_ad_groups_require_campaign_in_same_profile(
         assert missing_parent.error[0].index == 0
         assert missing_parent.error[0].errors[0].code == "RESOURCE_DOES_NOT_BELONG_TO_PARENT"
 
-        campaign_result = await owner_client.campaigns.create(
-            [campaign_payload(f"{unique_name}-parent", e2e_settings.marketplace)]
+        campaign_result = await owner_client.v1.sp.campaigns.create_campaign(
+            campaign_create_request(f"{unique_name}-parent", e2e_settings.marketplace),
+            mode="pydantic",
         )
         assert isinstance(campaign_result, SPCampaignMultiStatusResponse)
         assert campaign_result.error == []
@@ -50,9 +52,10 @@ async def test_sp_ad_groups_require_campaign_in_same_profile(
         campaign_id = campaign_result.success[0].campaign.campaignId
 
         try:
-            async with SPClient(other_config) as other_client:
-                cross_profile = await other_client.ad_groups.create(
-                    [ad_group_payload(f"{unique_name}-cross-profile", campaign_id)]
+            async with AdsClient(other_config) as other_client:
+                cross_profile = await other_client.v1.sp.ad_groups.create_ad_group(
+                    ad_group_create_request(f"{unique_name}-cross-profile", campaign_id),
+                    mode="pydantic",
                 )
             assert isinstance(cross_profile, SPAdGroupMultiStatusResponse)
             assert cross_profile.success == []
@@ -60,8 +63,9 @@ async def test_sp_ad_groups_require_campaign_in_same_profile(
             assert cross_profile.error[0].index == 0
             assert cross_profile.error[0].errors[0].code == "RESOURCE_DOES_NOT_BELONG_TO_PARENT"
 
-            same_profile = await owner_client.ad_groups.create(
-                [ad_group_payload(f"{unique_name}-same-profile", campaign_id)]
+            same_profile = await owner_client.v1.sp.ad_groups.create_ad_group(
+                ad_group_create_request(f"{unique_name}-same-profile", campaign_id),
+                mode="pydantic",
             )
             assert isinstance(same_profile, SPAdGroupMultiStatusResponse)
             assert same_profile.error == []
@@ -71,4 +75,7 @@ async def test_sp_ad_groups_require_campaign_in_same_profile(
             assert ad_group.adProduct == "SPONSORED_PRODUCTS"
             assert ad_group.bid.currencyCode == e2e_settings.expected_currency_code
         finally:
-            await owner_client.campaigns.delete([campaign_id])
+            await owner_client.v1.sp.campaigns.delete_campaign(
+                campaign_delete_request(campaign_id),
+                mode="pydantic",
+            )

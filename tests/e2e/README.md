@@ -1,6 +1,6 @@
 # ads_v1 e2e 行为契约测试
 
-> 目的：验证 `async-amazon-ads-api-v1` SDK 通过真实 HTTP 调用 `ads_v1_server` 时，是否符合 Amazon Ads API v1 的业务行为契约。测试完成标准不是“接口不报错”，而是请求上下文、状态码、错误格式、资源隔离、MultiStatus、过滤和删除语义都与模拟器记录的 Amazon 行为一致。
+> 目的：验证 `ads_api` SDK 通过真实 HTTP 调用 `ads_v1_server` 时，是否符合 Amazon Ads API v1 的业务行为契约。测试完成标准不是“接口不报错”，而是请求上下文、状态码、错误格式、资源隔离、MultiStatus、过滤和删除语义都与模拟器记录的 Amazon 行为一致。
 
 ## 参考来源
 

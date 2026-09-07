@@ -1,129 +1,87 @@
 from __future__ import annotations
 
+import httpx
 import pytest
-from pydantic import ValidationError
 
-from async_amazon_ads_api_v1.errors import (
-    BadGatewayResponseContent,
-    BadRequestResponseContent,
-    ContentTooLargeResponseContent,
-    Error,
-    ErrorCode,
-    ErrorsIndex,
-    ForbiddenResponseContent,
-    GatewayTimeoutResponseContent,
-    InternalServerErrorResponseContent,
-    NotFoundResponseContent,
-    ServiceUnavailableErrorResponseContent,
-    TooManyRequestsResponseContent,
-    UnauthorizedResponseContent,
+from ads_api.errors import (
+    STATUS_CODE_ERROR_MAP,
+    AmazonAdsAPIError,
+    AmazonAdsError,
+    BadRequestError,
+    ConfigurationError,
+    ConflictError,
+    ForbiddenError,
+    InternalServerError,
+    InvalidGrantError,
+    MissingConfigError,
+    NotFoundError,
+    RateLimitError,
+    TokenRefreshError,
+    UnauthorizedError,
+    UnprocessableEntityError,
+    raise_for_status,
 )
+from ads_api.models.v1._shared.general import Error, ErrorsIndex
 
 
-class TestErrorCode:
-    def test_values(self) -> None:
-        assert ErrorCode.BAD_REQUEST == "BAD_REQUEST"
-        assert ErrorCode.NOT_FOUND == "NOT_FOUND"
-        assert ErrorCode.TOO_MANY_REQUESTS == "TOO_MANY_REQUESTS"
-        assert ErrorCode.UNAUTHORIZED == "UNAUTHORIZED"
-        assert ErrorCode.FORBIDDEN == "FORBIDDEN"
-        assert ErrorCode.INTERNAL_ERROR == "INTERNAL_ERROR"
+class TestExceptionHierarchy:
+    def test_missing_config_is_configuration_error(self) -> None:
+        err = MissingConfigError()
+        assert isinstance(err, ConfigurationError)
+        assert isinstance(err, AmazonAdsError)
+        assert isinstance(err, ValueError)
+        assert str(err) == "Either 'config' or 'ctx' must be provided."
 
-    def test_known_codes(self) -> None:
-        codes = {m.value for m in ErrorCode}
-        assert "ACTION_NOT_SUPPORTED" in codes
-        assert "CONFLICT" in codes
-        assert "DUPLICATE_RESOURCE_ID_FOUND" in codes
+    def test_invalid_grant_is_token_refresh_error(self) -> None:
+        err = InvalidGrantError(error_description="revoked")
+        assert isinstance(err, TokenRefreshError)
+        assert isinstance(err, AmazonAdsError)
+        assert err.error_code == "invalid_grant"
+        assert "invalid_grant" in str(err)
+
+    def test_status_code_map(self) -> None:
+        assert STATUS_CODE_ERROR_MAP[400] is BadRequestError
+        assert STATUS_CODE_ERROR_MAP[401] is UnauthorizedError
+        assert STATUS_CODE_ERROR_MAP[403] is ForbiddenError
+        assert STATUS_CODE_ERROR_MAP[404] is NotFoundError
+        assert STATUS_CODE_ERROR_MAP[409] is ConflictError
+        assert STATUS_CODE_ERROR_MAP[422] is UnprocessableEntityError
+        assert STATUS_CODE_ERROR_MAP[429] is RateLimitError
+        assert STATUS_CODE_ERROR_MAP[500] is InternalServerError
 
 
-class TestError:
-    def test_minimal(self) -> None:
+class TestRaiseForStatus:
+    def test_success_is_noop(self) -> None:
+        resp = httpx.Response(200, json={"ok": True})
+        raise_for_status(resp)
+
+    def test_maps_status_to_typed_error(self) -> None:
+        resp = httpx.Response(401, json={"message": "no auth"})
+        with pytest.raises(UnauthorizedError) as exc_info:
+            raise_for_status(resp)
+        assert exc_info.value.status_code == 401
+        assert "no auth" in str(exc_info.value)
+
+    def test_unknown_status_uses_base_api_error(self) -> None:
+        resp = httpx.Response(418, json={"message": "teapot"})
+        with pytest.raises(AmazonAdsAPIError) as exc_info:
+            raise_for_status(resp)
+        assert type(exc_info.value) is AmazonAdsAPIError
+        assert exc_info.value.status_code == 418
+
+
+class TestErrorModels:
+    def test_error_known_code(self) -> None:
         err = Error(code="BAD_REQUEST", message="bad")
-        assert err.code == ErrorCode.BAD_REQUEST
+        assert err.code == "BAD_REQUEST"
         assert err.message == "bad"
         assert err.fieldLocation is None
 
-    def test_with_field_location(self) -> None:
-        err = Error(code="NOT_FOUND", fieldLocation="campaignId", message="not found")
-        assert err.fieldLocation == "campaignId"
+    def test_error_unknown_code_kept_as_str(self) -> None:
+        err = Error(code="UNKNOWN_CODE", message="x")
+        assert err.code == "UNKNOWN_CODE"
 
-    def test_extra_field_forbidden(self) -> None:
-        with pytest.raises(ValidationError):
-            Error(code="BAD_REQUEST", message="bad", extra="x")  # type: ignore[call-arg]
-
-    def test_unknown_code(self) -> None:
-        with pytest.raises(ValidationError):
-            Error(code="UNKNOWN_CODE", message="x")
-
-
-class TestErrorsIndex:
-    def test_valid(self) -> None:
-        ei = ErrorsIndex(
-            errors=[Error(code="BAD_REQUEST", message="e1")],
-            index=0,
-        )
+    def test_errors_index(self) -> None:
+        ei = ErrorsIndex(errors=[Error(code="BAD_REQUEST", message="e1")], index=0)
         assert len(ei.errors) == 1
         assert ei.index == 0
-
-    def test_extra_fields_forbidden(self) -> None:
-        with pytest.raises(ValidationError):
-            ErrorsIndex(errors=[], index=0, extra="x")  # type: ignore[call-arg]
-
-
-class TestResponseModels:
-    @pytest.mark.parametrize(
-        ("model_cls", "data"),
-        [
-            (BadRequestResponseContent, {"code": "BAD_REQUEST", "message": "bad"}),
-            (ContentTooLargeResponseContent, {"code": "CONTENT_TOO_LARGE", "message": "big"}),
-            (ForbiddenResponseContent, {"code": "FORBIDDEN", "message": "forbidden"}),
-            (NotFoundResponseContent, {"code": "NOT_FOUND", "message": "missing"}),
-            (TooManyRequestsResponseContent, {"code": "TOO_MANY_REQUESTS", "message": "slow"}),
-            (UnauthorizedResponseContent, {"code": "UNAUTHORIZED", "message": "no auth"}),
-        ],
-    )
-    def test_valid(self, model_cls: type, data: dict) -> None:
-        obj = model_cls(**data)
-        assert obj.code == data["code"]
-        assert obj.message == data["message"]
-
-    @pytest.mark.parametrize(
-        ("model_cls", "data"),
-        [
-            (BadGatewayResponseContent, {"code": "UPSTREAM_ERR", "message": "up"}),
-            (GatewayTimeoutResponseContent, {"code": "TIMEOUT", "message": "gateway"}),
-            (InternalServerErrorResponseContent, {"code": "CRASH", "message": "server"}),
-            (ServiceUnavailableErrorResponseContent, {"code": "DOWN", "message": "srv"}),
-        ],
-    )
-    def test_string_code(self, model_cls: type, data: dict) -> None:
-        obj = model_cls(**data)
-        assert isinstance(obj.code, str)
-        assert obj.message == data["message"]
-
-    @pytest.mark.parametrize(
-        "model_cls",
-        [
-            BadRequestResponseContent,
-            ForbiddenResponseContent,
-            NotFoundResponseContent,
-            TooManyRequestsResponseContent,
-            UnauthorizedResponseContent,
-        ],
-    )
-    def test_extra_forbidden(self, model_cls: type) -> None:
-        with pytest.raises(ValidationError):
-            model_cls(code="BAD_REQUEST", message="x", extra="y")  # type: ignore[call-arg]
-
-    @pytest.mark.parametrize(
-        "model_cls",
-        [
-            BadGatewayResponseContent,
-            GatewayTimeoutResponseContent,
-            InternalServerErrorResponseContent,
-            ServiceUnavailableErrorResponseContent,
-        ],
-    )
-    def test_extra_forbidden_string_code(self, model_cls: type) -> None:
-        with pytest.raises(ValidationError):
-            model_cls(code="X", message="x", extra="y")  # type: ignore[call-arg]

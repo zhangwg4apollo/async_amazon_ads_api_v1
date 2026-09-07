@@ -3,13 +3,15 @@ from __future__ import annotations
 import httpx
 import pytest
 
-from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
+from ads_api import AdsClient, AmazonAdsConfig, Region
+from ads_api.errors import BadRequestError, UnauthorizedError
+from ads_api.models.v1.campaigns.sp import SPQueryCampaignRequest
 
 from .config import E2ESettings
 
 
-def _query_body() -> dict[str, object]:
-    return {"adProductFilter": {"include": ["SPONSORED_PRODUCTS"]}}
+def _query_body() -> SPQueryCampaignRequest:
+    return SPQueryCampaignRequest.model_validate({"adProductFilter": {"include": ["SPONSORED_PRODUCTS"]}})
 
 
 def _config_with_access_token(
@@ -46,7 +48,7 @@ async def test_ads_api_rejects_missing_client_id_header(
                 "Authorization": f"Bearer {access_token}",
                 "Amazon-Advertising-API-Scope": e2e_settings.profile_id,
             },
-            json=_query_body(),
+            json={"adProductFilter": {"include": ["SPONSORED_PRODUCTS"]}},
         )
 
     assert resp.status_code == 400
@@ -67,9 +69,9 @@ async def test_sp_campaigns_reject_client_id_mismatch(
         client_id=f"{e2e_settings.client_id}.mismatch",
     )
 
-    async with SPClient(bad_config) as sp_client:
-        with pytest.raises(httpx.HTTPStatusError) as exc_info:
-            await sp_client.campaigns.query(_query_body())
+    async with AdsClient(bad_config) as ads:
+        with pytest.raises(UnauthorizedError) as exc_info:
+            await ads.v1.sp.campaigns.query_campaign(_query_body())
 
     resp = exc_info.value.response
     assert resp.status_code == 401
@@ -90,9 +92,9 @@ async def test_sp_campaigns_reject_non_numeric_profile_scope(
         profile_id="not-a-profile-id",
     )
 
-    async with SPClient(bad_config) as sp_client:
-        with pytest.raises(httpx.HTTPStatusError) as exc_info:
-            await sp_client.campaigns.query(_query_body())
+    async with AdsClient(bad_config) as ads:
+        with pytest.raises(BadRequestError) as exc_info:
+            await ads.v1.sp.campaigns.query_campaign(_query_body())
 
     resp = exc_info.value.response
     assert resp.status_code == 400
