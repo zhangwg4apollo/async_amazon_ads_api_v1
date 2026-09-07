@@ -1,0 +1,986 @@
+{
+  "section": "Reporting API (beta)",
+  "base": "https://d3a0d0y2hgofx6.cloudfront.net/en-us/",
+  "items": [
+    {
+      "name": "Overview",
+      "markdown": "guides/reporting/ads-v1/overview.md",
+      "etag": "\"bbf3b288da9961844337e2faecc65bf3\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:57 GMT",
+      "size": 11757
+    },
+    {
+      "name": "Quickstart guide",
+      "markdown": "guides/reporting/ads-v1/quickstart.md",
+      "etag": "\"5de9d3025778a358f1454b3ba605b0d3\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:57 GMT",
+      "size": 7191
+    },
+    {
+      "name": "Helpful concepts",
+      "markdown": "guides/reporting/ads-v1/helpful-concepts.md",
+      "etag": "\"e577eae9ca05068a8a96cf1cb17821d9\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:50 GMT",
+      "size": 9611
+    },
+    {
+      "name": "New features",
+      "markdown": "guides/reporting/ads-v1/new-features.md",
+      "etag": "\"53471cdff690677d948e79b51dfbbb43\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:56 GMT",
+      "size": 4157
+    },
+    {
+      "name": "Building queries",
+      "markdown": "guides/reporting/ads-v1/building-queries.md",
+      "etag": "\"12ee23aa275c0380f71340c817fc2060\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:42 GMT",
+      "size": 5561
+    },
+    {
+      "name": "Error handling",
+      "markdown": "guides/reporting/ads-v1/error-handling.md",
+      "etag": "\"92f16930241414866ab28cdbdf475a0b\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:50 GMT",
+      "size": 7063
+    },
+    {
+      "name": "Dates and historical lookback",
+      "markdown": "guides/reporting/ads-v1/dates.md",
+      "etag": "\"6af1b7aa0294c720f7f26d197eaa3f1a\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:42 GMT",
+      "size": 3498
+    },
+    {
+      "name": "Limits and best practices",
+      "markdown": "guides/reporting/ads-v1/limits.md",
+      "etag": "\"42374d343a91c839e4a0020690ddd4d7\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:50 GMT",
+      "size": 4795
+    },
+    {
+      "name": "Migrating from: spCampaigns",
+      "markdown": "guides/reporting/ads-v1/report-types/sp-campaigns.md",
+      "etag": "\"1906281588794e59b38ac27d298ca152\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:57 GMT",
+      "size": 1887
+    },
+    {
+      "name": "Migrating from: spPurchasedProduct",
+      "markdown": "guides/reporting/ads-v1/report-types/sp-purchased-product.md",
+      "etag": "\"a09f4f32502bb11a57bda219fd78a967\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:57 GMT",
+      "size": 2044
+    },
+    {
+      "name": "Migrating from: spAdvertisedProduct",
+      "markdown": "guides/reporting/ads-v1/report-types/sp-advertised-product.md",
+      "etag": "\"489757a96543c76f9c2dd886eb0649f6\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:57 GMT",
+      "size": 2124
+    },
+    {
+      "name": "Migrating from: spSearchTerm",
+      "markdown": "guides/reporting/ads-v1/report-types/sp-search-term.md",
+      "etag": "\"f083ef71595a59b0eed4a28c7e0d9557\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:57 GMT",
+      "size": 2156
+    },
+    {
+      "name": "Migrating from: spTargeting",
+      "markdown": "guides/reporting/ads-v1/report-types/sp-targeting.md",
+      "etag": "\"8c63fbdda7cbea5c691124dd6b29a572\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:57 GMT",
+      "size": 2098
+    },
+    {
+      "name": "Dimensions library",
+      "markdown": "guides/reporting/ads-v1/dimensions/library.md",
+      "etag": "\"bdde2a7659613f4bcc835eb9e90f24c4\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:45 GMT",
+      "size": 5553
+    },
+    {
+      "name": "Budget currency",
+      "markdown": "guides/reporting/ads-v1/dimensions/currency/budget-currency.md",
+      "etag": "\"4c2964eec813ddb9680a0964c7a7dd2a\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:43 GMT",
+      "size": 112586
+    },
+    {
+      "name": "Converted currency",
+      "markdown": "guides/reporting/ads-v1/dimensions/currency/converted-currency.md",
+      "etag": "\"a2952aa8a1de493c1bc4fc56cfd089c0\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:43 GMT",
+      "size": 112556
+    },
+    {
+      "name": "Date",
+      "markdown": "guides/reporting/ads-v1/dimensions/time/date.md",
+      "etag": "\"42b7f35f46e6b54834bebe58d575c996\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:49 GMT",
+      "size": 112823
+    },
+    {
+      "name": "Week",
+      "markdown": "guides/reporting/ads-v1/dimensions/time/week.md",
+      "etag": "\"5a7411fe81fac8bb92b1c1d20e52ecf0\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:50 GMT",
+      "size": 112836
+    },
+    {
+      "name": "Day of month",
+      "markdown": "guides/reporting/ads-v1/dimensions/time/day-of-month.md",
+      "etag": "\"1b298c8a1c4e25ed3fb6b85e84cb85a8\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:49 GMT",
+      "size": 112842
+    },
+    {
+      "name": "Month",
+      "markdown": "guides/reporting/ads-v1/dimensions/time/month.md",
+      "etag": "\"ecad779f8e089b3969c9fdfe414f6221\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:50 GMT",
+      "size": 112840
+    },
+    {
+      "name": "Year",
+      "markdown": "guides/reporting/ads-v1/dimensions/time/year.md",
+      "etag": "\"eb065a1287891acff36023538ca18b09\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:50 GMT",
+      "size": 112824
+    },
+    {
+      "name": "Day of week",
+      "markdown": "guides/reporting/ads-v1/dimensions/time/day-of-week.md",
+      "etag": "\"da32d98de24df9c22aebd448fc79cee5\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:49 GMT",
+      "size": 112845
+    },
+    {
+      "name": "Hour",
+      "markdown": "guides/reporting/ads-v1/dimensions/time/hour.md",
+      "etag": "\"583ba0eb06f5b29d3bab3bee0b754d99\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:50 GMT",
+      "size": 108429
+    },
+    {
+      "name": "Date range",
+      "markdown": "guides/reporting/ads-v1/dimensions/time/date-range.md",
+      "etag": "\"1a8308311664feb61ffd04221401f19b\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:49 GMT",
+      "size": 112844
+    },
+    {
+      "name": "Advertiser account",
+      "markdown": "guides/reporting/ads-v1/dimensions/level-of-detail/advertiser-account.md",
+      "etag": "\"a7ac87cd75f9b87780a65ecb43e52d02\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:44 GMT",
+      "size": 114194
+    },
+    {
+      "name": "Ad product",
+      "markdown": "guides/reporting/ads-v1/dimensions/level-of-detail/ad-product.md",
+      "etag": "\"26fb177a726843ad629050b9945321a4\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:44 GMT",
+      "size": 113019
+    },
+    {
+      "name": "Portfolio",
+      "markdown": "guides/reporting/ads-v1/dimensions/level-of-detail/portfolio.md",
+      "etag": "\"6e378225565e0eae0469f680f8dc48e3\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:45 GMT",
+      "size": 110011
+    },
+    {
+      "name": "Insertion order",
+      "markdown": "guides/reporting/ads-v1/dimensions/level-of-detail/insertion-order.md",
+      "etag": "\"75bfa75b1fb597ebaa7c6e1c2fab36dc\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:45 GMT",
+      "size": 109678
+    },
+    {
+      "name": "Campaign",
+      "markdown": "guides/reporting/ads-v1/dimensions/level-of-detail/campaign.md",
+      "etag": "\"1ecfa7f5e94e09c533f41376483532b2\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:44 GMT",
+      "size": 119203
+    },
+    {
+      "name": "Flight",
+      "markdown": "guides/reporting/ads-v1/dimensions/level-of-detail/flight.md",
+      "etag": "\"448ef4dc5a89371f11baef34ba0fb20b\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:45 GMT",
+      "size": 109288
+    },
+    {
+      "name": "Ad group",
+      "markdown": "guides/reporting/ads-v1/dimensions/level-of-detail/ad-group.md",
+      "etag": "\"fd6d20d6e351f41ab9b04bc85bd3b7d2\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:44 GMT",
+      "size": 117989
+    },
+    {
+      "name": "Ad",
+      "markdown": "guides/reporting/ads-v1/dimensions/level-of-detail/ad.md",
+      "etag": "\"3318848285912b68bbc858c624990119\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:44 GMT",
+      "size": 109812
+    },
+    {
+      "name": "Advertised product",
+      "markdown": "guides/reporting/ads-v1/dimensions/product/advertised-product.md",
+      "etag": "\"9246df1307435a929edefa2fa4dcc00e\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:45 GMT",
+      "size": 111640
+    },
+    {
+      "name": "Advertised product marketplace",
+      "markdown": "guides/reporting/ads-v1/dimensions/product/advertised-product-marketplace.md",
+      "etag": "\"b16feeeb1715f8e986ff397c42cbfac1\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:45 GMT",
+      "size": 108563
+    },
+    {
+      "name": "Advertised product SKU",
+      "markdown": "guides/reporting/ads-v1/dimensions/product/advertised-product-sku.md",
+      "etag": "\"542e1f812c5f7aa316dfc6575067b1b8\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:45 GMT",
+      "size": 108566
+    },
+    {
+      "name": "Converted product",
+      "markdown": "guides/reporting/ads-v1/dimensions/product/converted-product.md",
+      "etag": "\"b4d1216040c11ee6a29f84d16a75156d\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:46 GMT",
+      "size": 43148
+    },
+    {
+      "name": "Converted product marketplace",
+      "markdown": "guides/reporting/ads-v1/dimensions/product/converted-product-marketplace.md",
+      "etag": "\"328f355aef1d7cdd3b7587d7b55f2063\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:45 GMT",
+      "size": 40001
+    },
+    {
+      "name": "Product relevance",
+      "markdown": "guides/reporting/ads-v1/dimensions/product/product-relevance.md",
+      "etag": "\"e2007b4766ce88b940d2589566cb5cca\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:46 GMT",
+      "size": 40008
+    },
+    {
+      "name": "Supply source",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/supply-source.md",
+      "etag": "\"7fd50f1b17d5c70874bfa9a165a5baea\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:48 GMT",
+      "size": 109848
+    },
+    {
+      "name": "Site or app",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/site-or-app.md",
+      "etag": "\"d01ad6f9cd019e491da04495b02ff985\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:47 GMT",
+      "size": 109453
+    },
+    {
+      "name": "Placement",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/placement.md",
+      "etag": "\"ac1299b25fd4b3400261394a201b4ef1\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:47 GMT",
+      "size": 109569
+    },
+    {
+      "name": "Placement size",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/placement-size.md",
+      "etag": "\"b0ca3fb2c51d6d65af2890f6d48ca9a1\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:47 GMT",
+      "size": 109554
+    },
+    {
+      "name": "Placement classification",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/placement-classification.md",
+      "etag": "\"7256b6756bdfe154c67375ead6fb73a5\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:47 GMT",
+      "size": 108434
+    },
+    {
+      "name": "Deal",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/deal.md",
+      "etag": "\"e36817a4f5ec0e25364ad5f39f959c14\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:46 GMT",
+      "size": 109507
+    },
+    {
+      "name": "Content genre",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/content-genre.md",
+      "etag": "\"1d0e22ce415ebdd084e16d14aa183ce3\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:46 GMT",
+      "size": 19078
+    },
+    {
+      "name": "Content rating",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/content-rating.md",
+      "etag": "\"c86dffd0bc65a5d53b00d1482a9d74f8\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:46 GMT",
+      "size": 19134
+    },
+    {
+      "name": "Content type",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/content-type.md",
+      "etag": "\"d1951399461f2d79564b7ca9f72aecd1\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:46 GMT",
+      "size": 19105
+    },
+    {
+      "name": "Content title",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/content-title.md",
+      "etag": "\"4b8ce595194d17cebdcc57e95fdf895c\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:46 GMT",
+      "size": 19077
+    },
+    {
+      "name": "Content creator",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/content-creator.md",
+      "etag": "\"ce3e4eda8dc31ac30b0c0eab40fb22b6\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:46 GMT",
+      "size": 108378
+    },
+    {
+      "name": "Live event property",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/live-event-property.md",
+      "etag": "\"08c54d9f5b064438941a6efad603bbc5\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:47 GMT",
+      "size": 19233
+    },
+    {
+      "name": "Live event",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/live-event.md",
+      "etag": "\"c8b338bf550eb38224e3b23f82d0cca2\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:47 GMT",
+      "size": 19544
+    },
+    {
+      "name": "Live event inventory type",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/live-event-inventory-type.md",
+      "etag": "\"cbc4e48c7ddaef80b5ad7417bd3cab32\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:47 GMT",
+      "size": 19218
+    },
+    {
+      "name": "Live event ad break",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/live-event-ad-break.md",
+      "etag": "\"f28a8afda68412d58280497e04bb194e\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:47 GMT",
+      "size": 19206
+    },
+    {
+      "name": "Live event ad slot",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/live-event-ad-slot.md",
+      "etag": "\"93633bc07e960ed4704b235d7d49199e\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:47 GMT",
+      "size": 19681
+    },
+    {
+      "name": "Brand suitability content exclusion category",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/brand-suitability-content-exclusion-category.md",
+      "etag": "\"24378c921d24f0a74099c64632ce808b\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:46 GMT",
+      "size": 8044
+    },
+    {
+      "name": "Brand suitability inventory tier",
+      "markdown": "guides/reporting/ads-v1/dimensions/supply/brand-suitability-inventory-tier.md",
+      "etag": "\"7b855fc3a28d9f3030b6020a994ac303\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:46 GMT",
+      "size": 8025
+    },
+    {
+      "name": "Operating system",
+      "markdown": "guides/reporting/ads-v1/dimensions/technology/operating-system.md",
+      "etag": "\"86fb3ed008ea168df9427d2ce80c3ab7\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:49 GMT",
+      "size": 107276
+    },
+    {
+      "name": "Browser name",
+      "markdown": "guides/reporting/ads-v1/dimensions/technology/browser-name.md",
+      "etag": "\"c3e56af83c667184b54015dbe4736baa\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:48 GMT",
+      "size": 107255
+    },
+    {
+      "name": "Browser version",
+      "markdown": "guides/reporting/ads-v1/dimensions/technology/browser-version.md",
+      "etag": "\"7fffd49309898c8e3fd2f11bc9dc63c4\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:48 GMT",
+      "size": 107279
+    },
+    {
+      "name": "Device type",
+      "markdown": "guides/reporting/ads-v1/dimensions/technology/device-type.md",
+      "etag": "\"dfa30bb3bd0d94ad771d136fef67e355\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:49 GMT",
+      "size": 107251
+    },
+    {
+      "name": "Environment",
+      "markdown": "guides/reporting/ads-v1/dimensions/technology/environment.md",
+      "etag": "\"8e40894de3bee0b19d37c4db27b1fadf\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:49 GMT",
+      "size": 107274
+    },
+    {
+      "name": "Country",
+      "markdown": "guides/reporting/ads-v1/dimensions/geography/country.md",
+      "etag": "\"cde3ede72e96140436d55ce18a1e324c\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:43 GMT",
+      "size": 107574
+    },
+    {
+      "name": "Region",
+      "markdown": "guides/reporting/ads-v1/dimensions/geography/region.md",
+      "etag": "\"87191e081e6d7baeaf800a7236c42304\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:44 GMT",
+      "size": 107163
+    },
+    {
+      "name": "DMA",
+      "markdown": "guides/reporting/ads-v1/dimensions/geography/dma.md",
+      "etag": "\"0b42335999bf08e8a2f27154204d7980\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:44 GMT",
+      "size": 107570
+    },
+    {
+      "name": "City",
+      "markdown": "guides/reporting/ads-v1/dimensions/geography/city.md",
+      "etag": "\"49f8ff695a2dd430797e4cea45f05c01\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:43 GMT",
+      "size": 107146
+    },
+    {
+      "name": "Postal code",
+      "markdown": "guides/reporting/ads-v1/dimensions/geography/postal-code.md",
+      "etag": "\"d06704adaea24f714d167edb3fc2d076\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:44 GMT",
+      "size": 107173
+    },
+    {
+      "name": "Audience segment",
+      "markdown": "guides/reporting/ads-v1/dimensions/audience/audience-segment.md",
+      "etag": "\"40dc3596170037f0bd1bd745d554bc4c\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:42 GMT",
+      "size": 46884
+    },
+    {
+      "name": "Audience segment targeting status",
+      "markdown": "guides/reporting/ads-v1/dimensions/audience/audience-segment-targeting-status.md",
+      "etag": "\"685e7382af5172d8da01217cb9f320ee\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:42 GMT",
+      "size": 44617
+    },
+    {
+      "name": "Frequency group",
+      "markdown": "guides/reporting/ads-v1/dimensions/targeting/frequency-group.md",
+      "etag": "\"caff3c1fe646ca02b33ea0c1e2cdf090\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:48 GMT",
+      "size": 9210
+    },
+    {
+      "name": "Target",
+      "markdown": "guides/reporting/ads-v1/dimensions/targeting/target.md",
+      "etag": "\"d748e56b95387d5c48dd173bddf92777\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:48 GMT",
+      "size": 108561
+    },
+    {
+      "name": "Targeting",
+      "markdown": "guides/reporting/ads-v1/dimensions/targeting/targeting.md",
+      "etag": "\"66ceb79cca66713eb2ede3b99092a1da\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:48 GMT",
+      "size": 107328
+    },
+    {
+      "name": "Targeting match type",
+      "markdown": "guides/reporting/ads-v1/dimensions/targeting/targeting-match-type.md",
+      "etag": "\"3a4e00f73682383f957d1a64c709efa9\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:48 GMT",
+      "size": 107334
+    },
+    {
+      "name": "Search term",
+      "markdown": "guides/reporting/ads-v1/dimensions/targeting/search-term.md",
+      "etag": "\"28a9d1a0a43658bc104b833259c180ee\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:48 GMT",
+      "size": 107532
+    },
+    {
+      "name": "Matched target",
+      "markdown": "guides/reporting/ads-v1/dimensions/targeting/matched-target.md",
+      "etag": "\"f49e93020e378c1a84fc85791aaba751\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:48 GMT",
+      "size": 107321
+    },
+    {
+      "name": "Conversion source",
+      "markdown": "guides/reporting/ads-v1/dimensions/conversion/conversion-source.md",
+      "etag": "\"01b94702747a89e3715b535682db13b0\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:43 GMT",
+      "size": 55173
+    },
+    {
+      "name": "Conversion definition (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/dimensions/conversion/conversion-definition-off-amazon.md",
+      "etag": "\"6356e43552bcf4da01f8400ed5fb1817\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:43 GMT",
+      "size": 10148
+    },
+    {
+      "name": "Conversion type (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/dimensions/conversion/conversion-type-off-amazon.md",
+      "etag": "\"ad7f57f039d1749b290fbf4f997cd1cb\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:43 GMT",
+      "size": 10094
+    },
+    {
+      "name": "Conversion source environment",
+      "markdown": "guides/reporting/ads-v1/dimensions/conversion/conversion-source-environment.md",
+      "etag": "\"6739063a0fc63bc4a23df302fb382db9\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:43 GMT",
+      "size": 54230
+    },
+    {
+      "name": "Conversion source attribution type",
+      "markdown": "guides/reporting/ads-v1/dimensions/conversion/conversion-source-attribution-type.md",
+      "etag": "\"82a569207dd90ffb6a7c98ac196a5afe\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:43 GMT",
+      "size": 54243
+    },
+    {
+      "name": "Metrics library",
+      "markdown": "guides/reporting/ads-v1/metrics/library.md",
+      "etag": "\"539a0c7a2605f9569edd12927aab2ee0\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:55 GMT",
+      "size": 6404
+    },
+    {
+      "name": "Impressions",
+      "markdown": "guides/reporting/ads-v1/metrics/delivery/impressions.md",
+      "etag": "\"c88f333680a9c8892d723294dc0dcf6b\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:54 GMT",
+      "size": 36261
+    },
+    {
+      "name": "Clicks",
+      "markdown": "guides/reporting/ads-v1/metrics/delivery/clicks.md",
+      "etag": "\"392cdf3e3fc25f8e62c561cb9b26f527\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:54 GMT",
+      "size": 54026
+    },
+    {
+      "name": "Viewability",
+      "markdown": "guides/reporting/ads-v1/metrics/delivery/viewability.md",
+      "etag": "\"df53c87e22381a2547c4f9de7e9a4e50\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:54 GMT",
+      "size": 36025
+    },
+    {
+      "name": "Purchases",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/purchases.md",
+      "etag": "\"087ac5fd7a603b916fdeead198b4f095\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:53 GMT",
+      "size": 338733
+    },
+    {
+      "name": "Purchases (all views)",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/purchases-all-views.md",
+      "etag": "\"2076f07c641adb7b00838bc1fa555c86\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:53 GMT",
+      "size": 343243
+    },
+    {
+      "name": "Purchases (new to brand)",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/purchases-new-to-brand.md",
+      "etag": "\"b318cc940fddf6c925dca306e2fce577\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:53 GMT",
+      "size": 381880
+    },
+    {
+      "name": "Detail page views",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/detail-page-views.md",
+      "etag": "\"24fb50421b6ffe0efc7fe41ea39c7e37\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:52 GMT",
+      "size": 103029
+    },
+    {
+      "name": "Detail page views (new to brand)",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/detail-page-views-new-to-brand.md",
+      "etag": "\"512b4238440c477689670e4b21eeae05\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:52 GMT",
+      "size": 79801
+    },
+    {
+      "name": "Add to cart",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/add-to-cart.md",
+      "etag": "\"4f58c479c6138e260522e761a6fb3777\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:52 GMT",
+      "size": 78674
+    },
+    {
+      "name": "Add to cart (new to brand)",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/add-to-cart-new-to-brand.md",
+      "etag": "\"f78dd6bbfcf483a8c8a1a4351e895f4b\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:52 GMT",
+      "size": 79321
+    },
+    {
+      "name": "Branded searches",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/branded-searches.md",
+      "etag": "\"699c13dd95dbcda432c27a44fdab2059\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:52 GMT",
+      "size": 31418
+    },
+    {
+      "name": "Branded searches (new to brand)",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/branded-searches-new-to-brand.md",
+      "etag": "\"85e821246c1c2b4c2806fabd4193141d\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:52 GMT",
+      "size": 37939
+    },
+    {
+      "name": "Brand store page views",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/brand-store-page-views.md",
+      "etag": "\"30fdd37b86225929fff15cd31d25a3c8\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:52 GMT",
+      "size": 31320
+    },
+    {
+      "name": "Brand store page views (new to brand)",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/brand-store-page-views-new-to-brand.md",
+      "etag": "\"8ff1067f913b82652fcc2b3490281424\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:52 GMT",
+      "size": 38169
+    },
+    {
+      "name": "Add to list",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/add-to-list.md",
+      "etag": "\"b01311e11b807590c4fa4b7deca535d3\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:52 GMT",
+      "size": 79331
+    },
+    {
+      "name": "Product review page visits",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/product-review-page-visits.md",
+      "etag": "\"862547c6fb0dd9ec2d3626b682e19487\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:53 GMT",
+      "size": 79289
+    },
+    {
+      "name": "Subscribe & Save subscriptions",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/subscribe-save-subscriptions.md",
+      "etag": "\"a02edec0293ff187ea33e7549645c3b0\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:53 GMT",
+      "size": 79510
+    },
+    {
+      "name": "Long-term sales",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-retail-conversions/long-term-sales.md",
+      "etag": "\"8b0ee53b78218bafec3fcd23a0e8ca3e\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:52 GMT",
+      "size": 19678
+    },
+    {
+      "name": "Costs",
+      "markdown": "guides/reporting/ads-v1/metrics/costs-and-fees/costs.md",
+      "etag": "\"7568c5ba240542634071b47407fbf48b\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:54 GMT",
+      "size": 55041
+    },
+    {
+      "name": "Fees",
+      "markdown": "guides/reporting/ads-v1/metrics/costs-and-fees/fees.md",
+      "etag": "\"47ac818e02b0051ea5421d65a2776b40\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:54 GMT",
+      "size": 118828
+    },
+    {
+      "name": "Third-party fees",
+      "markdown": "guides/reporting/ads-v1/metrics/costs-and-fees/third-party-fees.md",
+      "etag": "\"5a4bc2ba8055756a3a2c96fcab8bd3aa\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:54 GMT",
+      "size": 285180
+    },
+    {
+      "name": "Subscription sign-ups",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/subscription-sign-ups.md",
+      "etag": "\"f889ceef24d212ed7f0c03dea46287d2\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:51 GMT",
+      "size": 31427
+    },
+    {
+      "name": "Paid subscription sign-ups",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/paid-subscription-sign-ups.md",
+      "etag": "\"7b3658fee3ed71f41165342901466b85\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:51 GMT",
+      "size": 31531
+    },
+    {
+      "name": "Free-trial subscription sign-ups",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/free-trial-subscription-sign-ups.md",
+      "etag": "\"47fd25f3f7f2becf2899da2360fcd9c2\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:51 GMT",
+      "size": 31677
+    },
+    {
+      "name": "App subscription sign-ups",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/app-subscription-sign-ups.md",
+      "etag": "\"672358dfb8ce696009847ebba56e1315\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:50 GMT",
+      "size": 31392
+    },
+    {
+      "name": "Paid app subscription sign-ups",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/paid-app-subscription-sign-ups.md",
+      "etag": "\"1697e5644fbd0ce97e1131277e3b3b3f\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:51 GMT",
+      "size": 31454
+    },
+    {
+      "name": "Free-trial app subscription sign-ups",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/free-trial-app-subscription-sign-ups.md",
+      "etag": "\"b7c871d0aafae26d6736a678be95c849\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:51 GMT",
+      "size": 31594
+    },
+    {
+      "name": "Appstore opens",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/appstore-opens.md",
+      "etag": "\"9b53390862bbf87bb821a0cee592067e\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:51 GMT",
+      "size": 54476
+    },
+    {
+      "name": "Appstore first opens",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/appstore-first-opens.md",
+      "etag": "\"a7bdf7ad1d342f5c45059e75ca8e80e4\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:51 GMT",
+      "size": 54572
+    },
+    {
+      "name": "Appstore repeat opens",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/appstore-repeat-opens.md",
+      "etag": "\"68b8e5f2cebbaa82d5b4af098612fe77\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:51 GMT",
+      "size": 54485
+    },
+    {
+      "name": "Alexa skill enable",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/alexa-skill-enable.md",
+      "etag": "\"43650ae8ebafc08d85f2f73757dc5926\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:50 GMT",
+      "size": 31252
+    },
+    {
+      "name": "Alexa skill invocations",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/alexa-skill-invocations.md",
+      "etag": "\"0ccbedb61caff1fc925359ecaab467fd\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:50 GMT",
+      "size": 31445
+    },
+    {
+      "name": "Kindle Edition Normalized Pages read",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/kindle-edition-normalized-pages-read.md",
+      "etag": "\"1fe11abb19f9dc257d70c75c0edd8ad5\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:51 GMT",
+      "size": 53893
+    },
+    {
+      "name": "Kindle Unlimited qualified borrows",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-device-conversions/kindle-unlimited-qualified-borrows.md",
+      "etag": "\"b3cb075a596443d3cfa66b6e00d371f0\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:51 GMT",
+      "size": 163738
+    },
+    {
+      "name": "User reach",
+      "markdown": "guides/reporting/ads-v1/metrics/reach/user-reach.md",
+      "etag": "\"345547167b071509c32f2393908df3d5\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:56 GMT",
+      "size": 76831
+    },
+    {
+      "name": "Household reach",
+      "markdown": "guides/reporting/ads-v1/metrics/reach/household-reach.md",
+      "etag": "\"00d76b0b1a6872aba6804d95d2e64159\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:56 GMT",
+      "size": 69764
+    },
+    {
+      "name": "Incremental reach (linear TV)",
+      "markdown": "guides/reporting/ads-v1/metrics/reach/incremental-reach-linear-tv.md",
+      "etag": "\"407f1402fad637893b3df4eb8f011a9f\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:56 GMT",
+      "size": 12597
+    },
+    {
+      "name": "Add to watchlist",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-video-conversions/add-to-watchlist.md",
+      "etag": "\"9642709f299199aaa60a893c3e60eaa8\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:53 GMT",
+      "size": 30417
+    },
+    {
+      "name": "Downloaded video plays",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-video-conversions/downloaded-video-plays.md",
+      "etag": "\"8edbb8685cabe9616aee98a51d0ca1e4\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:53 GMT",
+      "size": 29768
+    },
+    {
+      "name": "Rentals",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-video-conversions/rentals.md",
+      "etag": "\"0b1bb2d2c91a505ec73717c3daa7ba11\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:53 GMT",
+      "size": 29380
+    },
+    {
+      "name": "Trailer plays",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-video-conversions/trailer-plays.md",
+      "etag": "\"7634b7a6d9766a8050806886b3a03718\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:53 GMT",
+      "size": 29526
+    },
+    {
+      "name": "Video stream plays",
+      "markdown": "guides/reporting/ads-v1/metrics/amazon-video-conversions/video-stream-plays.md",
+      "etag": "\"91b87817e76562cc065d2afd4e587f8b\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:53 GMT",
+      "size": 29590
+    },
+    {
+      "name": "Search",
+      "markdown": "guides/reporting/ads-v1/metrics/impression-share/search.md",
+      "etag": "\"6ce71ca4bb2a51cbf164528b41884b01\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:55 GMT",
+      "size": 18516
+    },
+    {
+      "name": "Interaction",
+      "markdown": "guides/reporting/ads-v1/metrics/engagement/interaction.md",
+      "etag": "\"e709a9ed151234f7a83badc168557a05\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:54 GMT",
+      "size": 18284
+    },
+    {
+      "name": "Attention (video ad)",
+      "markdown": "guides/reporting/ads-v1/metrics/engagement/attention-video-ad.md",
+      "etag": "\"0859f784121fbdaee12ae0c35b9a279b\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:54 GMT",
+      "size": 101403
+    },
+    {
+      "name": "Attention (audio ad)",
+      "markdown": "guides/reporting/ads-v1/metrics/engagement/attention-audio-ad.md",
+      "etag": "\"27a7c50149ae893d903c6cf69433f73b\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:54 GMT",
+      "size": 94778
+    },
+    {
+      "name": "Conversions (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/conversions-off-amazon.md",
+      "etag": "\"b91ba3382c31c53c520510224137e1cc\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:55 GMT",
+      "size": 54068
+    },
+    {
+      "name": "Purchases (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/purchases-off-amazon.md",
+      "etag": "\"7773cc69b9ad032d8a6b8b7a29ca557a\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:56 GMT",
+      "size": 130871
+    },
+    {
+      "name": "Add to shopping cart (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/add-to-shopping-cart-off-amazon.md",
+      "etag": "\"5158017ab605f6e01de9f3cdc0e0c3ab\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:55 GMT",
+      "size": 42532
+    },
+    {
+      "name": "Applications (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/applications-off-amazon.md",
+      "etag": "\"0d3aa8fb4ed0cad326646cc779438b84\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:55 GMT",
+      "size": 42198
+    },
+    {
+      "name": "Checkouts (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/checkouts-off-amazon.md",
+      "etag": "\"2b1eb91eedebb249fa15f904eb2b3349\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:55 GMT",
+      "size": 42056
+    },
+    {
+      "name": "Contacts (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/contacts-off-amazon.md",
+      "etag": "\"681cfd709be82426553d12d654851b39\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:55 GMT",
+      "size": 42019
+    },
+    {
+      "name": "Leads (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/leads-off-amazon.md",
+      "etag": "\"d049c03412b5f0ac73104848bbb85c35\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:55 GMT",
+      "size": 41908
+    },
+    {
+      "name": "Installs (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/installs-off-amazon.md",
+      "etag": "\"ec2ba41dadbd31b497d9005c8f4504dd\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:55 GMT",
+      "size": 41979
+    },
+    {
+      "name": "Other (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/other-off-amazon.md",
+      "etag": "\"0f320c3c8279ab4def0cf241e6841514\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:55 GMT",
+      "size": 42174
+    },
+    {
+      "name": "Page views (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/page-views-off-amazon.md",
+      "etag": "\"ae473bceae5d4caf5c23142a8b0bea22\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:56 GMT",
+      "size": 42080
+    },
+    {
+      "name": "Searches (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/searches-off-amazon.md",
+      "etag": "\"aead5030846003ebe830f2b534cf5471\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:56 GMT",
+      "size": 42003
+    },
+    {
+      "name": "Sign-ups (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/sign-ups-off-amazon.md",
+      "etag": "\"74fc407b4cdf326f63455da126fd3f77\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:56 GMT",
+      "size": 42006
+    },
+    {
+      "name": "Subscribe (off-Amazon)",
+      "markdown": "guides/reporting/ads-v1/metrics/off-amazon-conversions/subscribe-off-amazon.md",
+      "etag": "\"989618126340a41756514d686e307b96\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:56 GMT",
+      "size": 42154
+    },
+    {
+      "name": "Purchases (combined)",
+      "markdown": "guides/reporting/ads-v1/metrics/combined-conversions/purchases-combined.md",
+      "etag": "\"fd44828f690d54722db1df6b2b8bd086\"",
+      "last_modified": "Fri, 04 Sep 2026 17:51:54 GMT",
+      "size": 96777
+    }
+  ]
+}
